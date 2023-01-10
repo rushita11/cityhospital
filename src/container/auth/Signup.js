@@ -13,7 +13,7 @@ function Signup(props) {
                             <Col xs lg="6">
                                 <FormGroup>
                                     <Label for="exampleEmail">
-                                        Name
+                                        User Name
                                     </Label>
                                     <Input
                                         id="name"
