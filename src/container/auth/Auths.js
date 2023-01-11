@@ -37,6 +37,7 @@ function Signup(props) {
                                     :
                                     null
                             }
+                            
                             {
                                 reset ?
                                     <Col>
