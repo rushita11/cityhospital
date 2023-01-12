@@ -22,7 +22,7 @@ function List({ listdata }) {
                                             p.price === undefined ? null : <p>Rs: {p.price}</p>
                                         }
                                          {
-                                            p.qty === undefined ? null : <p>Rs: {p.qty}</p>
+                                            p.qty === undefined ? null : <p>Qty: {p.qty}</p>
                                         }
 
                                         <p>{p.desc}</p>
