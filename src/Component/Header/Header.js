@@ -29,6 +29,7 @@ function Header(props) {
             <nav id="navbar" className="navbar order-last order-lg-0">
                 <ul>
                     <li><NavLink exact className="nav-link scrollto" to={'/'}>Home</NavLink></li>
+                    <li><NavLink className="nav-link scrollto" to={'/medicin'}>Medicin</NavLink></li>
                     <li><NavLink className="nav-link scrollto" to={'/department'}>Departments</NavLink></li>
                     <li><NavLink className="nav-link scrollto" to={'/doctor'}>Doctors</NavLink></li>
                     <li><NavLink className="nav-link scrollto " to={'/about'}>About</NavLink></li>

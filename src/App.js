@@ -13,7 +13,8 @@ import Signup from "./container/auth/Signup";
 import Login from "./container/auth/Login";
 import Forgetpass from "./container/auth/Forgetpass";
 import Auth from "./container/auth/Auth";
-import Auths from "./container/auth/Auths"
+import Auths from "./container/auth/Auths";
+import Medicin from "./container/Medicin/Medicin";
 function App() {
   return (
     < >
@@ -24,6 +25,7 @@ function App() {
         <Route exact path={"/forgetpass"} component={Forgetpass}/>
         <Route exact path={"/"} component={Home}/>
         <Route exact path={"/about"} component={About}/>
+        <Route exact path={"/medicin"} component={Medicin}/>
         <Route exact path={"/doctor"} component={Doctor}/>
         <Route exact path={"/contact"} component={Contact}/>
         <Route exact path={"/department"} component={Department}/>

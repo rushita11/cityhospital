@@ -1,5 +1,32 @@
 import React from 'react';
+import List from '../Component/List/List';
+const data = [
+  {
+      image: "",
+      name: "Atha Smith",
+      position: "Chief Medical Officer",
+      description: "Duis sagittis rutrum neque, quis tincidunt arcu pretium ac."
+  },
+  {
+      image: "",
+      name: "John White",
+      position: "Anesthesiologist",
+      description: "Aenean ac turpis ante. Mauris velit sapien."
+  },
+  {
+      image: "",
+      name: "Umika Loha",
+      position: "Cardiology",
+      description: "Curabitur luctus eleifend odio. Phasellus placerat mi."
+  },
+  {
+      image: "",
+      name: "Daimy Smith",
+      position: "Neurosurgeon",
+      description: "Morbi vulputate, tortor nec pellentesque molestie, eros nisi ornare purus."
+  },
 
+]
 function Doctor(props) {
     return (
       <section id="doctors" className="doctors">
@@ -10,7 +37,8 @@ function Doctor(props) {
         tincidunt viverra erat. Quisque in lectus id nulla viverra sodales in a risus. Aliquam ut sem ex. Duis viverra
         ipsum lacus, ut pharetra arcu sagittis nec. Phasellus a eleifend elit.</p>
     </div>
-    <div className="row">
+    < List listdata={data}/>
+    {/* <div className="row">
       <div className="col-lg-6">
         <div className="member d-flex align-items-start">
           <div className="pic"><img src="../assets/img/doctors/doctors-1.jpg" className="img-doctor" alt /></div>
@@ -75,7 +103,7 @@ function Doctor(props) {
           </div>
         </div>
       </div>
-    </div>
+    </div> */}
   </div>
 </section>
 
