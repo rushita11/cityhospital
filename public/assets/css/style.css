@@ -1199,6 +1199,7 @@ section {
   box-shadow: 0px 2px 15px rgba(44, 73, 100, 0.08);
   padding: 30px;
   border-radius: 10px;
+  height: 100%;
 }
 
 .doctors .member .pic {
@@ -1844,4 +1845,7 @@ section {
 .mt-30{
   margin-top: 30px;
   text-align: center;
+}
+.row{
+  row-gap: 20px;
 }

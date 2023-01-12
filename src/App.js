@@ -12,6 +12,7 @@ import About from './container/About';
 import Signup from "./container/auth/Signup";
 import Login from "./container/auth/Login";
 import Forgetpass from "./container/auth/Forgetpass";
+import Medicin from "./container/Medicin";
 function App() {
   return (
     < >
@@ -27,6 +28,7 @@ function App() {
         <Route exact path={"/department"} component={Department}/>
         <Route exact path={"/signup"} component={Signup} />
         <Route exact path={"/login"} component={Login} />
+        <Route exact path={"/medicin"} component={Medicin} />
       </Switch>
       <Footer />
     </>
