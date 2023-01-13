@@ -6,14 +6,14 @@ const data = [
         name: "ABC",
         price: 1200,
         qty:100,
-        image: "../assets/img/doctors/doctors-1.jpg"
+        // image: "../assets/img/doctors/doctors-1.jpg"
     },
     {
         id: 102,
         name: "BCS",
         price: 120,
         qty: 200,
-        image: "../assets/img/doctors/doctors-1.jpg"
+        // image: "../assets/img/doctors/doctors-1.jpg"
     }
 ]
 
