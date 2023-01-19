@@ -1,11 +1,11 @@
-import { Form, Formik, useFormik } from 'formik';
 import React from 'react';
 import * as yup from 'yup';
+import { Form, Formik, useFormik } from 'formik';
 
 function Contact(props) {
     let schema = yup.object().shape({
-        name: yup.string().required("Please enter the name"),
-        email: yup.string().required().email(),
+        name: yup.string().required('Please enter name.'),
+        email: yup.string().required().email('Invalid email'),
         subject: yup.string().required(),
         message: yup.string().required()
     });
@@ -15,13 +15,14 @@ function Contact(props) {
             name: '',
             email: '',
             subject: '',
-            message: '',
+            message: ''
         },
         validationSchema: schema,
         onSubmit: values => {
-            console.log(values)
+            console.log(values);
         },
     });
+
     const { handleChange, handleBlur, handleSubmit, errors, touched } = formikObj;
 
     console.log(errors);
@@ -72,7 +73,7 @@ function Contact(props) {
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                             />
-                                            {errors !== '' && touched.name ? <span>{errors.name}</span> : null}
+                                            {errors.name !== '' && touched.name ? <span>{errors.name}</span> : null}
                                         </div>
                                         <div className="col-md-6 form-group mt-3 mt-md-0">
                                             <input
@@ -84,31 +85,17 @@ function Contact(props) {
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                             />
-                                            {errors !== '' && touched.email ? <span>{errors.email}</span> : null}
+                                            {errors.email !== '' && touched.email ? <span>{errors.email}</span> : null}
+
                                         </div>
                                     </div>
                                     <div className="form-group mt-3">
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            name="subject"
-                                            id="subject"
-                                            placeholder="Subject"
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                        />
-                                        {errors !== '' && touched.subject ? <span>{errors.subject}</span> : null}
+                                        <input type="text" className="form-control" name="subject" id="subject" placeholder="Subject" onChange={handleChange}
+                                            onBlur={handleBlur} />
                                     </div>
                                     <div className="form-group mt-3">
-                                        <textarea
-                                            className="form-control"
-                                            name="message"
-                                            rows={5}
-                                            placeholder="Message"
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                        />
-                                        {errors !== '' && touched.message ? <span>{errors.message}</span> : null}
+                                        <textarea className="form-control" name="message" rows={5} placeholder="Message" onChange={handleChange}
+                                            onBlur={handleBlur} />
                                     </div>
                                     <div className="my-3">
                                         <div className="loading">Loading</div>
