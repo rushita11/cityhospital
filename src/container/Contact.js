@@ -22,7 +22,7 @@ function Contact(props) {
             console.log(values)
         },
     });
-    const { handleChange, handleBlur, handleSubmit, errors, touched } = formikObj;
+    const { handleChange, handleBlur, handleSubmit, setFieldTouched, errors, touched } = formikObj;
 
     console.log(errors);
 
@@ -69,19 +69,27 @@ function Contact(props) {
                                                 className="form-control"
                                                 id="name"
                                                 placeholder="Your Name"
-                                                onChange={handleChange}
+                                                onChange={e => {
+                                                    setFieldTouched('name')
+                                                    handleChange(e)
+                                                }}
                                                 onBlur={handleBlur}
                                             />
                                             {errors !== '' && touched.name ? <span>{errors.name}</span> : null}
                                         </div>
                                         <div className="col-md-6 form-group mt-3 mt-md-0">
                                             <input
-                                                type="email"
+                                                type="text"
                                                 className="form-control"
                                                 name="email"
                                                 id="email"
                                                 placeholder="Your Email"
-                                                onChange={handleChange}
+                                                onChange={e => {
+                                                    setFieldTouched('email')
+                                                    handleChange(e)
+                                                }
+                                                    
+                                                }
                                                 onBlur={handleBlur}
                                             />
                                             {errors !== '' && touched.email ? <span>{errors.email}</span> : null}
@@ -94,7 +102,10 @@ function Contact(props) {
                                             name="subject"
                                             id="subject"
                                             placeholder="Subject"
-                                            onChange={handleChange}
+                                            onChange={e => {
+                                                setFieldTouched('subject')
+                                                handleChange(e)
+                                            }}
                                             onBlur={handleBlur}
                                         />
                                         {errors !== '' && touched.subject ? <span>{errors.subject}</span> : null}
@@ -105,7 +116,10 @@ function Contact(props) {
                                             name="message"
                                             rows={5}
                                             placeholder="Message"
-                                            onChange={handleChange}
+                                            onChange={e => {
+                                                setFieldTouched('message')
+                                                handleChange(e)
+                                            }}
                                             onBlur={handleBlur}
                                         />
                                         {errors !== '' && touched.message ? <span>{errors.message}</span> : null}
