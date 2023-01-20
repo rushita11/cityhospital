@@ -1584,7 +1584,7 @@ section {
   font-size: 14px;
 }
 
-.contact .php-email-form input {
+.contact .php-email-form input.form-control {
   height: 44px;
 }
 

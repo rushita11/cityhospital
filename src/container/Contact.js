@@ -4,10 +4,23 @@ import * as yup from 'yup';
 
 function Contact(props) {
     let schema = yup.object().shape({
-        name: yup.string().required("Please enter the name"),
+        name: yup.string().required("Please enter the name").matches(/^[A-Za-z ]*$/, 'Please enter valid name')
+            .max(40).min(2)
+            .required(),
         email: yup.string().required().email(),
         subject: yup.string().required(),
-        message: yup.string().required()
+        message: yup.string().required().max(10, "Allow max 10 character."),
+        mobile: yup.string().required("").test("mobile", "Phone number is not valid", value => {
+            if (value)
+                return value.toString().length === 10
+        }),
+        password: yup.string().required().min(5, 'Password is too short - should be 8 chars minimum.').matches(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$%\^&\*])/,
+            "Must Contain 5 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
+        ),
+        confpass: yup.string()
+            .oneOf([yup.ref('password'), null], 'Passwords must be match'),
+        gender: yup.string().required(),
     });
 
     const formikObj = useFormik({
@@ -16,6 +29,10 @@ function Contact(props) {
             email: '',
             subject: '',
             message: '',
+            mobile: '',
+            password: '',
+            confpass: '',
+            gender: '',
         },
         validationSchema: schema,
         onSubmit: values => {
@@ -88,11 +105,84 @@ function Contact(props) {
                                                     setFieldTouched('email')
                                                     handleChange(e)
                                                 }
-                                                    
                                                 }
                                                 onBlur={handleBlur}
                                             />
                                             {errors !== '' && touched.email ? <span>{errors.email}</span> : null}
+                                        </div>
+                                        <div className="col-md-6 form-group mt-3 mt-md-0">
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                name="mobile"
+                                                id="mobile"
+                                                placeholder="Your mobile"
+                                                onChange={e => {
+                                                    setFieldTouched('mobile')
+                                                    handleChange(e)
+                                                }
+                                                }
+                                                onBlur={handleBlur}
+                                            />
+                                            {errors !== '' && touched.mobile ? <span>{errors.mobile}</span> : null}
+                                        </div>
+
+                                        <div className="col-md-6 form-group mt-3 mt-md-0">
+                                            <input
+                                                type="radio"
+
+                                                name="gender"
+                                                onChange={e => {
+                                                    setFieldTouched('mobile')
+                                                    handleChange(e)
+                                                }
+                                                }
+                                                onBlur={handleBlur}
+                                            /> Male
+                                            <input
+                                                type="radio"
+                                                className='ms-3'
+                                                name="gender"
+                                                onChange={e => {
+                                                    setFieldTouched('mobile')
+                                                    handleChange(e)
+                                                }
+                                                }
+                                                onBlur={handleBlur}
+                                            /> Female
+                                            {errors !== '' && touched.gender ? <span className='d-block pt-3'>{errors.gender}</span> : null}
+                                        </div>
+                                        <div className="col-md-6 form-group mt-3 mt-md-0">
+                                            <input
+                                                type="password"
+                                                className="form-control"
+                                                name="password"
+                                                id="password"
+                                                placeholder="Your password"
+                                                onChange={e => {
+                                                    setFieldTouched('password')
+                                                    handleChange(e)
+                                                }
+                                                }
+                                                onBlur={handleBlur}
+                                            />
+                                            {errors !== '' && touched.password ? <span>{errors.password}</span> : null}
+                                        </div>
+                                        <div className="col-md-6 form-group mt-3 mt-md-0">
+                                            <input
+                                                type="password"
+                                                className="form-control"
+                                                name="confpass"
+                                                id="confpass"
+                                                placeholder="Your confpass"
+                                                onChange={e => {
+                                                    setFieldTouched('confpass')
+                                                    handleChange(e)
+                                                }
+                                                }
+                                                onBlur={handleBlur}
+                                            />
+                                            {errors !== '' && touched.confpass ? <span>{errors.confpass}</span> : null}
                                         </div>
                                     </div>
                                     <div className="form-group mt-3">

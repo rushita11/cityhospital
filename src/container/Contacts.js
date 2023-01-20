@@ -1,13 +1,19 @@
+import { Form, Formik, useFormik } from 'formik';
 import React from 'react';
 import * as yup from 'yup';
-import { Form, Formik, useFormik } from 'formik';
 
 function Contact(props) {
     let schema = yup.object().shape({
-        name: yup.string().required('Please enter name.'),
-        email: yup.string().required().email('Invalid email'),
+        name: yup.string().required("Please enter the name").matches(/^[A-Za-z ]*$/, 'Please enter valid name'),
+        email: yup.string().required().email(),
         subject: yup.string().required(),
-        message: yup.string().required()
+        message: yup.string().required().max(10, "Allow max 10 character."),
+        mobile: yup.number().typeError('Please enter valid mobile number.').test("mobile", "Phone number is not valid", value => { if (value) return value.toString().length === 10 }),
+        password: yup.string().required('Password is required'),
+        confpass: yup.string()
+            .oneOf([yup.ref('password'), null], 'Passwords must match'),
+        gender: yup.string().required('Please select gender'),
+        hobby: yup.array().min(2, 'Atleast 2 hobby').of(yup.string().required()).required()
     });
 
     const formikObj = useFormik({
@@ -15,15 +21,19 @@ function Contact(props) {
             name: '',
             email: '',
             subject: '',
-            message: ''
+            message: '',
+            mobile: '',
+            password: '',
+            confpass: '',
+            gender: '',
+            hobby: ''
         },
         validationSchema: schema,
         onSubmit: values => {
-            console.log(values);
+            console.log(values)
         },
     });
-
-    const { handleChange, handleBlur, handleSubmit, errors, touched } = formikObj;
+    const { handleChange, handleBlur, handleSubmit, setFieldTouched, errors, touched } = formikObj;
 
     console.log(errors);
 
@@ -70,32 +80,150 @@ function Contact(props) {
                                                 className="form-control"
                                                 id="name"
                                                 placeholder="Your Name"
-                                                onChange={handleChange}
+                                                onChange={e => {
+                                                    setFieldTouched('name')
+                                                    handleChange(e)
+                                                }}
                                                 onBlur={handleBlur}
                                             />
-                                            {errors.name !== '' && touched.name ? <span>{errors.name}</span> : null}
+                                            {errors !== '' && touched.name ? <span>{errors.name}</span> : null}
                                         </div>
                                         <div className="col-md-6 form-group mt-3 mt-md-0">
                                             <input
-                                                type="email"
+                                                type="text"
                                                 className="form-control"
                                                 name="email"
                                                 id="email"
                                                 placeholder="Your Email"
-                                                onChange={handleChange}
+                                                onChange={e => {
+                                                    setFieldTouched('email')
+                                                    handleChange(e)
+                                                }
+
+                                                }
                                                 onBlur={handleBlur}
                                             />
-                                            {errors.email !== '' && touched.email ? <span>{errors.email}</span> : null}
+                                            {errors !== '' && touched.email ? <span>{errors.email}</span> : null}
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-md-6 form-group">
+                                            <input
+                                                type="password"
+                                                name="password"
+                                                className="form-control"
+                                                id="name"
+                                                placeholder="Your password"
+                                                onChange={e => {
+                                                    setFieldTouched('password')
+                                                    handleChange(e)
+                                                }}
+                                                onBlur={handleBlur}
+                                            />
+                                            {errors !== '' && touched.password ? <span>{errors.password}</span> : null}
+                                        </div>
+                                        <div className="col-md-6 form-group mt-3 mt-md-0">
+                                            <input
+                                                type="password"
+                                                className="form-control"
+                                                name="confpass"
+                                                id="confpass"
+                                                placeholder="Your confirm password"
+                                                onChange={e => {
+                                                    setFieldTouched('confpass')
+                                                    handleChange(e)
+                                                }
 
+                                                }
+                                                onBlur={handleBlur}
+                                            />
+                                            {errors !== '' && touched.confpass ? <span>{errors.confpass}</span> : null}
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-md-6 form-group">
+                                            <input
+                                                type="text"
+                                                name="mobile"
+                                                className="form-control"
+                                                id="mobile"
+                                                placeholder="Your mobile"
+                                                onChange={e => {
+                                                    setFieldTouched('mobile')
+                                                    handleChange(e)
+                                                }}
+                                                onBlur={handleBlur}
+                                            />
+                                            {errors !== '' && touched.mobile ? <span>{errors.mobile}</span> : null}
+                                        </div>
+                                        <div className="col-md-6 form-group mt-3 mt-md-0">
+                                            <input type={"radio"} name="gender" value={"male"} onChange={e => {
+                                                setFieldTouched('mobile')
+                                                handleChange(e)
+                                            }}
+                                                onBlur={handleBlur} />Male
+                                            <input type={"radio"} name="gender" value={"female"} onChange={e => {
+                                                setFieldTouched('mobile')
+                                                handleChange(e)
+                                            }}
+                                                onBlur={handleBlur} />Female
+
+                                            {errors !== '' && touched.gender ? <span>{errors.gender}</span> : null}
                                         </div>
                                     </div>
                                     <div className="form-group mt-3">
-                                        <input type="text" className="form-control" name="subject" id="subject" placeholder="Subject" onChange={handleChange}
-                                            onBlur={handleBlur} />
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            name="subject"
+                                            id="subject"
+                                            placeholder="Subject"
+                                            onChange={e => {
+                                                setFieldTouched('subject')
+                                                handleChange(e)
+                                            }}
+                                            onBlur={handleBlur}
+                                        />
+                                        {errors !== '' && touched.subject ? <span>{errors.subject}</span> : null}
                                     </div>
                                     <div className="form-group mt-3">
-                                        <textarea className="form-control" name="message" rows={5} placeholder="Message" onChange={handleChange}
-                                            onBlur={handleBlur} />
+                                        Hobby:
+                                        <input 
+                                        type={"checkbox"} 
+                                        name="hobby" 
+                                        value={"music"} 
+                                        onChange={e => {
+                                            setFieldTouched('hobby')
+                                            handleChange(e)
+                                        }}
+                                            onBlur={handleBlur} />Music
+                                        <input type={"checkbox"} name="hobby" value={'cricket'} onChange={e => {
+                                            setFieldTouched('hobby')
+                                            handleChange(e)
+                                        }}
+                                            onBlur={handleBlur} />Cricket
+                                        <input type={"checkbox"} name="hobby" value={'coding'} onChange={e => {
+                                            setFieldTouched('hobby')
+                                            handleChange(e)
+                                        }}
+                                            onBlur={handleBlur} />Coding
+
+                                        {errors !== '' && touched.hobby ? <span>{errors.hobby}</span> : null}
+
+                                    </div>
+                                    <div className="form-group mt-3">
+                                        <textarea
+                                            className="form-control"
+                                            name="message"
+                                            rows={5}
+                                            placeholder="Message"
+                                            onChange={e => {
+                                                setFieldTouched('message')
+                                                handleChange(e)
+                                            }}
+                                            onBlur={handleBlur}
+                                        />
+                                        {errors !== '' && touched.message ? <span>{errors.message}</span> : null}
                                     </div>
                                     <div className="my-3">
                                         <div className="loading">Loading</div>
