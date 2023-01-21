@@ -13,14 +13,16 @@ import Signup from "./container/auth/Signup";
 import Login from "./container/auth/Login";
 import Forgetpass from "./container/auth/Forgetpass";
 import Medicin from "./container/Medicin";
+import Form from "./container/Form";
 function App() {
   return (
     < >
       <Header />
-     
-      <Switch>
+     <Form />
+
+      {/* <Switch>
         {/* <Forgetpass /> */}
-        <Route exact path={"/forgetpass"} component={Forgetpass}/>
+        {/* <Route exact path={"/forgetpass"} component={Forgetpass}/>
         <Route exact path={"/"} component={Home}/>
         <Route exact path={"/about"} component={About}/>
         <Route exact path={"/doctor"} component={Doctor}/>
@@ -29,7 +31,7 @@ function App() {
         <Route exact path={"/signup"} component={Signup} />
         <Route exact path={"/login"} component={Login} />
         <Route exact path={"/medicin"} component={Medicin} />
-      </Switch>
+      </Switch> */} 
       <Footer />
     </>
   );

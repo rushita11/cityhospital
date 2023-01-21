@@ -1849,3 +1849,9 @@ section {
 .row{
   row-gap: 20px;
 }
+.error_input{
+  border: 1px solid red;
+}
+.success_input{
+  border: 1px solid green;
+}
