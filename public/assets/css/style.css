@@ -1855,3 +1855,21 @@ section {
 .success_input{
   border: 1px solid green;
 }
+.dataBorder {
+  width: 60%;
+  margin: 50px auto;
+  /* margin-top: 50px; */
+}
+.dataBorder td, .dataBorder th{
+border: 1px solid black;
+padding: 10px;
+}
+.dataError{
+  font-size: 40px;
+  color: red;
+  text-align: center;
+  margin: 30px 0px;
+  text-transform: uppercase;
+  border: 1px solid red;
+  
+}

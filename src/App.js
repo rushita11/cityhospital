@@ -18,20 +18,20 @@ function App() {
   return (
     < >
       <Header />
-     <Form />
+      {/* <Form /> */}
 
-      {/* <Switch>
+      <Switch>
         {/* <Forgetpass /> */}
-        {/* <Route exact path={"/forgetpass"} component={Forgetpass}/>
-        <Route exact path={"/"} component={Home}/>
-        <Route exact path={"/about"} component={About}/>
-        <Route exact path={"/doctor"} component={Doctor}/>
-        <Route exact path={"/contact"} component={Contact}/>
-        <Route exact path={"/department"} component={Department}/>
+        <Route exact path={"/forgetpass"} component={Forgetpass} />
+        <Route exact path={"/"} component={Home} />
+        <Route exact path={"/about"} component={About} />
+        <Route exact path={"/doctor"} component={Doctor} />
+        <Route exact path={"/contact"} component={Contact} />
+        <Route exact path={"/department"} component={Department} />
         <Route exact path={"/signup"} component={Signup} />
         <Route exact path={"/login"} component={Login} />
         <Route exact path={"/medicin"} component={Medicin} />
-      </Switch> */} 
+      </Switch>
       <Footer />
     </>
   );

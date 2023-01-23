@@ -1,8 +1,27 @@
 import { Form, Formik, useFormik } from 'formik';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import * as yup from 'yup';
 
 function Contact(props) {
+    // state that store local data  initally null
+    const [formdata, setformdata] = useState(null);
+
+    // useEffect(() => {
+    //     let localData = JSON.parse(localStorage.getItem("contact"));
+
+    //     if (localData !== null) {
+    //         setformdata(localData)
+    //     }
+    // }, [])
+
+
+    useEffect(() => {
+        let localData = JSON.parse(localStorage.getItem("contact"));
+
+        if (localData !== null) {
+            setformdata(localData)
+        }
+    }, [])
     let schema = yup.object().shape({
         name: yup.string().required("Please enter the name").matches(/^[A-Za-z ]*$/, 'Please enter valid name')
             .max(40).min(2)
@@ -23,6 +42,23 @@ function Contact(props) {
         gender: yup.string().required(),
     });
 
+    const storeContact = (values) => {
+        let localData = JSON.parse(localStorage.getItem("contact"));
+
+        console.log(localData);
+
+        if (localData !== null) {
+            localData.push(values);
+            localStorage.setItem("contact", JSON.stringify(localData))
+            // save data into state
+            setformdata(localData);
+        } else {
+            localStorage.setItem("contact", JSON.stringify([values]));
+            // save data into state
+            setformdata(localData);
+        }
+    }
+
     const formikObj = useFormik({
         initialValues: {
             name: '',
@@ -36,12 +72,12 @@ function Contact(props) {
         },
         validationSchema: schema,
         onSubmit: values => {
-            console.log(values)
+            storeContact(values);
         },
     });
     const { handleChange, handleBlur, handleSubmit, setFieldTouched, errors, touched } = formikObj;
 
-    console.log(errors);
+    console.log(formdata);
 
     return (
         <div>
@@ -224,10 +260,41 @@ function Contact(props) {
                             </Formik>
                         </div>
                     </div>
+                    
+                        {
+                            formdata !== null ?
+                            <>
+                            <table border="1" className="dataBorder">
+                        <tbody border="1">
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>mobile</th>
+                            <th>Password</th>
+                        </tbody>{
+                                formdata.map((p, i) => {
+                                    return (
+                                        <>
+                                            <tr>
+                                                <td>{p.name}</td>
+                                                <td>{p.email}</td>
+                                                <td>{p.mobile}</td>
+                                                <td>{p.password}</td>
+                                            </tr>
+                                        </>
+                                    )
+                                })
+                            }
+                                </table>
+                                </>
+                                : <><div className='dataError'><p className='mb-0'>Not any data</p></div></>
+                        }
+                    
                 </div>
+
+                {/* state data not null -> data display */}
+
+
             </section>
-
-
         </div>
     );
 }
