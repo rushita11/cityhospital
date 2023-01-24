@@ -1591,7 +1591,12 @@ section {
 .contact .php-email-form textarea {
   padding: 10px 12px;
 }
-
+.closeIcon{
+  position: absolute;
+  right:30px;
+  top:30px;
+  cursor: pointer;
+}
 .contact .php-email-form button[type="submit"] {
   background: #FF6337;
   border: 0;
@@ -1794,9 +1799,6 @@ section {
 .main-header {
   height: 138px;
 }
-
-
-
 /* custome css */
 .Signup_form {
   padding: 50px 0px;
