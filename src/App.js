@@ -5,7 +5,7 @@ import Header from './Component/Header/Header';
 import Footer from './Component/Footer/Footer';
 import Home from './container/Home';
 import Appointment from './container/Appointment';
-import Doctor from './container/Doctor';
+// import Doctor from './container/Doctor';
 import Department from './container/Department';
 import Contact from './container/Contact';
 import About from './container/About';
@@ -14,14 +14,17 @@ import Login from "./container/auth/Login";
 import Forgetpass from "./container/auth/Forgetpass";
 import Medicin from "./container/Medicin";
 import Form from "./container/Form";
+import Medicins from "./admin/Container/Medicine/Medicins";
+import Layout from "./admin/Component/Layout/Layout";
+import Doctor from "./admin/Container/Doctor/Doctor";
 function App() {
   return (
     < >
-      <Header />
-      {/* <Form /> */}
+      {/* <Header />
+      <Form />
 
       <Switch>
-        {/* <Forgetpass /> */}
+        <Forgetpass />
         <Route exact path={"/forgetpass"} component={Forgetpass} />
         <Route exact path={"/"} component={Home} />
         <Route exact path={"/about"} component={About} />
@@ -32,7 +35,13 @@ function App() {
         <Route exact path={"/login"} component={Login} />
         <Route exact path={"/medicin"} component={Medicin} />
       </Switch>
-      <Footer />
+      <Footer /> */}
+      <Layout>
+        <Switch>
+          <Route exact path={"/medicins"} component={Medicins} />
+          <Route exact path={"/doctor"} component={Doctor} />
+        </Switch>
+      </Layout>
     </>
   );
 }
