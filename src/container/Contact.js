@@ -6,15 +6,6 @@ function Contact(props) {
     // state that store local data  initally null
     const [formdata, setformdata] = useState(null);
 
-    // useEffect(() => {
-    //     let localData = JSON.parse(localStorage.getItem("contact"));
-
-    //     if (localData !== null) {
-    //         setformdata(localData)
-    //     }
-    // }, [])
-
-
     useEffect(() => {
         let localData = JSON.parse(localStorage.getItem("contact"));
 
@@ -77,8 +68,6 @@ function Contact(props) {
     });
     const { handleChange, handleBlur, handleSubmit, setFieldTouched, errors, touched } = formikObj;
 
-    console.log(formdata);
-
     return (
         <div>
             <section id="contact" className="contact">
@@ -116,19 +105,7 @@ function Contact(props) {
                                 <Form className="php-email-form" onSubmit={handleSubmit}>
                                     <div className="row">
                                         <div className="col-md-6 form-group">
-                                            <input
-                                                type="text"
-                                                name="name"
-                                                className="form-control"
-                                                id="name"
-                                                placeholder="Your Name"
-                                                onChange={e => {
-                                                    setFieldTouched('name')
-                                                    handleChange(e)
-                                                }}
-                                                onBlur={handleBlur}
-                                            />
-                                            {errors !== '' && touched.name ? <span>{errors.name}</span> : null}
+                                           Su
                                         </div>
                                         <div className="col-md-6 form-group mt-3 mt-md-0">
                                             <input
@@ -260,35 +237,35 @@ function Contact(props) {
                             </Formik>
                         </div>
                     </div>
-                    
-                        {
-                            formdata !== null ?
+
+                    {
+                        formdata !== null ?
                             <>
-                            <table border="1" className="dataBorder">
-                        <tbody border="1">
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>mobile</th>
-                            <th>Password</th>
-                        </tbody>{
-                                formdata.map((p, i) => {
-                                    return (
-                                        <>
-                                            <tr>
-                                                <td>{p.name}</td>
-                                                <td>{p.email}</td>
-                                                <td>{p.mobile}</td>
-                                                <td>{p.password}</td>
-                                            </tr>
-                                        </>
-                                    )
-                                })
-                            }
+                                <table border="1" className="dataBorder">
+                                    <tbody border="1">
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>mobile</th>
+                                        <th>Password</th>
+                                    </tbody>{
+                                        formdata.map((p, i) => {
+                                            return (
+                                                <>
+                                                    <tr>
+                                                        <td>{p.name}</td>
+                                                        <td>{p.email}</td>
+                                                        <td>{p.mobile}</td>
+                                                        <td>{p.password}</td>
+                                                    </tr>
+                                                </>
+                                            )
+                                        })
+                                    }
                                 </table>
-                                </>
-                                : <><div className='dataError'><p className='mb-0'>Not any data</p></div></>
-                        }
-                    
+                            </>
+                            : <><div className='dataError'><p className='mb-0'>Not any data</p></div></>
+                    }
+
                 </div>
 
                 {/* state data not null -> data display */}

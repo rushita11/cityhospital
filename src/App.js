@@ -20,12 +20,12 @@ import Doctor from "./admin/Container/Doctor/Doctor";
 function App() {
   return (
     < >
-      {/* <Header />
-      <Form />
+       <Header />
+      {/* <Form /> */}
 
       <Switch>
-        <Forgetpass />
-        <Route exact path={"/forgetpass"} component={Forgetpass} />
+        {/* <Forgetpass /> */}
+      <Route exact path={"/forgetpass"} component={Forgetpass} />
         <Route exact path={"/"} component={Home} />
         <Route exact path={"/about"} component={About} />
         <Route exact path={"/doctor"} component={Doctor} />
@@ -35,7 +35,7 @@ function App() {
         <Route exact path={"/login"} component={Login} />
         <Route exact path={"/medicin"} component={Medicin} />
       </Switch>
-      <Footer /> */}
+      <Footer /> 
       <Layout>
         <Switch>
           <Route exact path={"/medicins"} component={Medicins} />
