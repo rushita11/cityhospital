@@ -45,7 +45,7 @@ const MedicineModal = ({ open, handleClose }) => {
 
                                 <div className="row">
                                     <div className="col-md-6 form-group">
-                                        <div className="form-group mt-3">
+                                        <div className="form-group ">
                                             <input
                                                 type="text"
                                                 name="name"
