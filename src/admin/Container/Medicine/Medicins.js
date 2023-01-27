@@ -4,15 +4,47 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, D
 import TextField from '@mui/material/TextField';
 import { Form, Formik, useFormik } from 'formik';
 import { DataGrid } from '@mui/x-data-grid';
+import DeleteIcon from '@mui/icons-material/Delete';
 import * as yup from 'yup';
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
 
 
 function Medicins(props) {
     const [medData, setMedData] = useState([])
+    const [Dopen, setDOpen] = React.useState(false);
+    const [dId, setDId] = useState();
+    const [Eid, setEid] = useState();
+
+    const handleDelete = () => {
+        let localData = JSON.parse(localStorage.getItem("medicine"));
+        let deData = localData.filter((l) => l.id !== dId)
+        localStorage.setItem("medicine", JSON.stringify(deData));
+        setMedData(deData);
+        handleDClose();
+        setDId();
+    }
+
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'name', headerName: 'Name', width: 130 },
         { field: 'quantity', headerName: 'Quantity', width: 130 },
+        {
+            field: 'action',
+            headerName: 'action',
+            renderCell: (params) => {
+                return (
+                    <>
+                        <IconButton onClick={() => { setDId(params.row.id); setDOpen(true) }} aria-label="delete">
+                            <DeleteIcon />
+                        </IconButton>
+                        <IconButton onClick={() => { setEid(params.row.id); setOpen(true) }} aria-label="delete">
+                            <EditIcon />
+                        </IconButton>
+                    </>
+                )
+            }
+        }
     ];
 
     let schema = yup.object().shape({
@@ -37,7 +69,7 @@ function Medicins(props) {
         let localData = JSON.parse(localStorage.getItem("medicine"));
         let idData = Math.round(Math.random() * 1000);
         let data = { ...values, id: idData };
-        console.log(localData);
+        // console.log(localData);
 
         if (localData !== null) {
             localData.push(data);
@@ -60,9 +92,9 @@ function Medicins(props) {
         validationSchema: schema,
         onSubmit: values => {
             storeMeddata(values);
+            setOpen(false);
         },
     });
-
 
     const { handleChange, handleBlur, handleSubmit, setFieldTouched, errors, touched } = formikObj;
     const [open, setOpen] = React.useState(false)
@@ -70,9 +102,31 @@ function Medicins(props) {
     const handleClose = () => {
         setOpen(false);
     };
-    
+
+    const handleDClose = () => {
+        setDOpen(false);
+    };
+
     return (
         <>
+            <Dialog
+                open={Dopen}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Are you sure Delete the Data?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleDClose}>Disagree</Button>
+                    <Button onClick={() => handleDelete()} autoFocus>
+                        Agree
+                    </Button>
+                </DialogActions>
+            </Dialog>
             <div className='Text d-flex justify-content-between'>
                 <h1>Medicine</h1>
                 <div className="text-end"><button className='appointment-btn border-0 m-0 ' onClick={() => setOpen(true)}>Open Modal</button>
@@ -110,7 +164,7 @@ function Medicins(props) {
                                         }}
                                         onBlur={handleBlur}
                                     />
-                                    {errors !== '' && touched.name ? <span>{errors.price}</span> : null}
+                                    {errors !== '' && touched.price ? <span>{errors.price}</span> : null}
                                     <TextField
                                         margin="dense"
                                         id="quantity"
