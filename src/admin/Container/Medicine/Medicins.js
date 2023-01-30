@@ -15,6 +15,15 @@ function Medicins(props) {
     const [Dopen, setDOpen] = React.useState(false);
     const [dId, setDId] = useState();
     const [Eid, setEid] = useState();
+    const [open, setOpen] = React.useState(false)
+
+
+    useEffect(() => {
+        let localData = JSON.parse(localStorage.getItem("medicine"));
+        if (localData !== null) {
+            setMedData(localData);
+        }
+    }, [])
 
     const handleDelete = () => {
         let localData = JSON.parse(localStorage.getItem("medicine"));
@@ -28,6 +37,7 @@ function Medicins(props) {
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'name', headerName: 'Name', width: 130 },
+        { field: 'price', headerName: 'Price', width: 130 },
         { field: 'quantity', headerName: 'Quantity', width: 130 },
         {
             field: 'action',
@@ -38,7 +48,7 @@ function Medicins(props) {
                         <IconButton onClick={() => { setDId(params.row.id); setDOpen(true) }} aria-label="delete">
                             <DeleteIcon />
                         </IconButton>
-                        <IconButton onClick={() => { setEid(params.row.id); setOpen(true) }} aria-label="delete">
+                        <IconButton onClick={() => { handleUpdate(params.row) }} aria-label="delete">
                             <EditIcon />
                         </IconButton>
                     </>
@@ -54,14 +64,6 @@ function Medicins(props) {
         quantity: yup.string().required("quantity is required"),
 
     });
-
-
-    useEffect(() => {
-        let localData = JSON.parse(localStorage.getItem("medicine"));
-        if (localData !== null) {
-            setMedData(localData);
-        }
-    }, [])
 
 
     const storeMeddata = (values) => {
@@ -82,6 +84,23 @@ function Medicins(props) {
             setMedData(data);
         }
     }
+    const handleUpdateData = (values) => {
+        let localData = JSON.parse(localStorage.getItem("medicine"));
+        let updateData = localData.map((l) => {
+            if (l.id === values.id) {
+                return values;
+            } else {
+                return l;
+            }
+        })
+        localStorage.setItem("medicine", JSON.stringify(updateData));
+        setMedData(updateData);
+        handleDClose();
+        setEid();
+       formikObj.resetForm();
+        // console.log(setEid());
+
+    }
 
     const formikObj = useFormik({
         initialValues: {
@@ -91,14 +110,28 @@ function Medicins(props) {
         },
         validationSchema: schema,
         onSubmit: values => {
-            storeMeddata(values);
+            {
+                if (Eid) {
+                    handleUpdateData(values);
+                } else {
+                    storeMeddata(values);
+                }
+            }
+
             setOpen(false);
         },
     });
 
-    const { handleChange, handleBlur, handleSubmit, setFieldTouched, errors, touched } = formikObj;
-    const [open, setOpen] = React.useState(false)
+    const { handleChange, handleBlur, handleSubmit, setFieldTouched, errors, values, touched, setValues } = formikObj;
 
+
+    const handleUpdate = (values) => {
+        setEid(values);
+        // console.log(values)
+        setOpen(true);
+        setValues(values);
+
+    }
     const handleClose = () => {
         setOpen(false);
     };
@@ -134,8 +167,9 @@ function Medicins(props) {
                     <Dialog open={open} onClose={handleClose}>
                         <Formik values={formikObj}>
                             <Form className="php-email-form" onSubmit={handleSubmit}>
-
-                                <DialogTitle>Add Medicine</DialogTitle>
+                                {
+                                    Eid ? <DialogTitle>Update Medicine</DialogTitle> : <DialogTitle>Add Medicine</DialogTitle>
+                                }
                                 <DialogContent>
                                     <TextField
                                         margin="dense"
@@ -143,6 +177,7 @@ function Medicins(props) {
                                         label="Enter Medicine Name"
                                         type="text"
                                         fullWidth
+                                        value={values.name}
                                         variant="standard"
                                         onChange={e => {
                                             setFieldTouched('name')
@@ -155,7 +190,8 @@ function Medicins(props) {
                                         margin="dense"
                                         id="price"
                                         label="Enter Price"
-                                        type="text"
+                                        type="number"
+                                        value={values.price}
                                         fullWidth
                                         variant="standard"
                                         onChange={e => {
@@ -167,9 +203,10 @@ function Medicins(props) {
                                     {errors !== '' && touched.price ? <span>{errors.price}</span> : null}
                                     <TextField
                                         margin="dense"
-                                        id="quantity"
+                                        name="quantity"
                                         label="Enter Quantity"
                                         type="number"
+                                        value={values.quantity}
                                         fullWidth
                                         variant="standard"
                                         onChange={e => {
@@ -182,7 +219,10 @@ function Medicins(props) {
                                 </DialogContent>
                                 <DialogActions>
                                     <Button onClick={handleClose}>Cancel</Button>
-                                    <Button type='submit'>Submit</Button>
+                                    {
+                                        Eid ? <Button type='submit'>Update</Button> : <Button type='submit'>Submit</Button>
+                                    }
+
                                 </DialogActions>
 
                             </Form>
