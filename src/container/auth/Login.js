@@ -5,14 +5,15 @@ import Forgetpass from './Forgetpass';
 import Signup from './Signup';
 
 function Login(props) {
-    
+    const handleData = () => {
+        localStorage.setItem("user", 1234);
+    }
     return (
         <div>
             <Container>
                 <div className='Signup_form'>
                     <h2>Login</h2>
                     <Form>
-
                         <FormGroup>
                             <Label for="exampleEmail">
                                 Email
@@ -27,10 +28,10 @@ function Login(props) {
 
                         <FormGroup>
                             <div className="d-flex align-items-center justify-content-between">
-                            <Label for="examplePassword">
-                                Password
-                            </Label>
-                            <NavLink to={'/forgetpass'}>Forget password?</NavLink>
+                                <Label for="examplePassword">
+                                    Password
+                                </Label>
+                                <NavLink to={'/forgetpass'}>Forget password?</NavLink>
                             </div>
                             <Input
                                 id="examplePassword"
@@ -40,7 +41,7 @@ function Login(props) {
                             />
                         </FormGroup>
 
-                        <Button className='signup_button appointment-btn ' >
+                        <Button type= "submit" onClick={() => handleData()} className='signup_button appointment-btn ' >
                             Submit
                         </Button>
                     </Form>

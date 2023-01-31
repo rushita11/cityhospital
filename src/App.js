@@ -17,31 +17,33 @@ import Form from "./container/Form";
 import Medicins from "./admin/Container/Medicine/Medicins";
 import Layout from "./admin/Component/Layout/Layout";
 import Doctor from "./admin/Container/Doctor/Doctor";
+import PublicRoute from "./routes/PublicRoute";
+import PrivateRoute from "./routes/PrivateRoute";
 function App() {
   return (
     < >
-       {/* <Header /> */}
+       <Header />
       {/* <Form /> */}
 
       <Switch> 
         {/* <Forgetpass /> */}
-       {/* <Route exact path={"/forgetpass"} component={Forgetpass} />
-        <Route exact path={"/"} component={Home} />
-        <Route exact path={"/about"} component={About} />
-        <Route exact path={"/doctor"} component={Doctor} /> */}
-        {/* <Route exact path={"/contact"} component={Contact} /> */}
-        {/* <Route exact path={"/department"} component={Department} />
-        <Route exact path={"/signup"} component={Signup} />
-        <Route exact path={"/login"} component={Login} />
-        <Route exact path={"/medicin"} component={Medicin} /> */}
+       <PublicRoute exact path={"/forgetpass"} restricted ={true} component={Forgetpass} />
+        <PublicRoute exact path={"/"} component={Home} />
+        <PublicRoute exact path={"/about"} component={About} />
+        <PublicRoute exact path={"/doctor"} component={Doctor} />
+        <PublicRoute exact path={"/contact"} component={Contact} />
+        <PublicRoute exact path={"/department"} component={Department} />
+        <PublicRoute exact path={"/signup"} restricted ={true} component={Signup} />
+        <PublicRoute exact path={"/login"} restricted ={true} component={Login} />
+        <PrivateRoute exact path={"/medicin"} component={Medicin} />
       </Switch>
-      {/* <Footer />   */}
-      <Layout>
+      <Footer />  
+      {/* <Layout>
         <Switch>
           <Route exact path={"/medicins"} component={Medicins} />
           <Route exact path={"/doctor"} component={Doctor} />
         </Switch>
-      </Layout>
+      </Layout> */}
     </>
   );
 }
