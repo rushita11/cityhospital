@@ -97,7 +97,7 @@ function Medicins(props) {
         setMedData(updateData);
         handleDClose();
         setEid();
-       formikObj.resetForm();
+        formikObj.resetForm();
         // console.log(setEid());
 
     }
@@ -123,7 +123,6 @@ function Medicins(props) {
     });
 
     const { handleChange, handleBlur, handleSubmit, setFieldTouched, errors, values, touched, setValues } = formikObj;
-
 
     const handleUpdate = (values) => {
         setEid(values);
@@ -224,7 +223,6 @@ function Medicins(props) {
                                     }
 
                                 </DialogActions>
-
                             </Form>
                         </Formik>
                     </Dialog>

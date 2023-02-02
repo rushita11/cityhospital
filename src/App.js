@@ -22,28 +22,25 @@ import PrivateRoute from "./routes/PrivateRoute";
 function App() {
   return (
     < >
-       <Header />
-      {/* <Form /> */}
-
-      <Switch> 
-        {/* <Forgetpass /> */}
-       <PublicRoute exact path={"/forgetpass"} restricted ={true} component={Forgetpass} />
+      {/* <Header />
+      <Switch>
+        <PublicRoute exact path={"/forgetpass"} restricted={true} component={Forgetpass} />
         <PublicRoute exact path={"/"} component={Home} />
         <PublicRoute exact path={"/about"} component={About} />
         <PublicRoute exact path={"/doctor"} component={Doctor} />
         <PublicRoute exact path={"/contact"} component={Contact} />
         <PublicRoute exact path={"/department"} component={Department} />
-        <PublicRoute exact path={"/signup"} restricted ={true} component={Signup} />
-        <PublicRoute exact path={"/login"} restricted ={true} component={Login} />
+        <PublicRoute exact path={"/signup"} restricted={true} component={Signup} />
+        <PublicRoute exact path={"/login"} restricted={true} component={Login} />
         <PrivateRoute exact path={"/medicin"} component={Medicin} />
       </Switch>
-      <Footer />  
-      {/* <Layout>
+      <Footer /> */}
+      <Layout>
         <Switch>
           <Route exact path={"/medicins"} component={Medicins} />
           <Route exact path={"/doctor"} component={Doctor} />
         </Switch>
-      </Layout> */}
+      </Layout>
     </>
   );
 }
