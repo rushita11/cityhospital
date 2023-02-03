@@ -6,6 +6,7 @@ import List from '../Component/List/List';
 
 function Medicin(props) {
     const [data, setData] = useState([]);
+    const [filterData, setFilterData] = useState()
 
     useEffect(() => {
         let localData = JSON.parse(localStorage.getItem("medicine"));
@@ -13,7 +14,41 @@ function Medicin(props) {
         if (localData !== null) {
             setData(localData)
         }
-    }, [])
+    }, []);
+
+    // const handlefilter = (value) => {
+    //     let fData = data.filter((d) =>
+    //         (d.name.toLowerCase() === value.toLowerCase())
+    //     )
+    //     console.log(fData)
+    //     if(fData.length > 0){
+    //         setData(fData);
+    //         console.log(setData(fData))
+    //     }
+    //     else{
+    //         setData(data);
+    //     }
+    //     // let finalData = fData.length > 0 ? setData(fData): setData(data);
+    //     // console.log(fData)
+    //     // setData(fData);
+    // }
+    const handlefilter = (val) => {
+        if (val !== '') {
+            let fData = data.filter((d) =>(
+                d.name.toLowerCase().includes(val.toLowerCase()) || 
+                d.price.toString().includes(val)
+            ))
+            setFilterData(fData)
+
+        } else {
+            setFilterData()
+        }
+    }
+
+    let finalData = filterData ? filterData : data;
+
+
+    console.log(finalData);
 
     return (
         <>
@@ -26,7 +61,21 @@ function Medicin(props) {
                             ipsum lacus, ut pharetra arcu sagittis nec. Phasellus a eleifend elit.</p>
                     </div>
 
-                    <List listdata={data} />
+                    {/* <input
+                        type={'text'}
+                        name="search"
+                        placeholder='Search....'
+                        onChange={(e) => handleFilter(e.target.value)}
+                    /> */}
+                    <input
+                        type={"text"}
+                        name="search"
+                        placeholder='Seach...'
+                        onChange={(e) => handlefilter(e.target.value)}
+                    />
+
+                    <List listdata={finalData} />
+
                 </div>
             </section>
         </>
