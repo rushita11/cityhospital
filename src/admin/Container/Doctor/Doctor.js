@@ -1,173 +1,269 @@
-// import React, { useEffect, useState } from 'react';
-import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
+import React, { useEffect, useState } from 'react';
+import MedicineModal from '../MedicineModal';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, FormLabel, Modal, Radio, RadioGroup, Typography } from '@mui/material';
+import TextField from '@mui/material/TextField';
 import { Form, Formik, useFormik } from 'formik';
-import React from 'react';
-import { useState } from 'react';
-import { Button } from 'reactstrap';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { DataGrid } from '@mui/x-data-grid'
 import * as yup from 'yup';
-
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
+import { DateRange } from '@mui/icons-material';
 
 
 function Doctor(props) {
-    const [open, setOpen] = useState(false);
-    const [medData, setMeddata] = useState([]);
+    const [medData, setData] = useState([])
+    const [Dopen, setDOpen] = React.useState(false);
+    const [dId, setDId] = useState();
+    const [Eid, setEid] = useState();
+    const [open, setOpen] = React.useState(false)
+
 
     useEffect(() => {
-        let localData = JSON.parse(localStorage.getItem("medicine"));
+        let localData = JSON.parse(localStorage.getItem("doctor"));
         if (localData !== null) {
-            setMedData(localData);
+            setData(localData);
         }
     }, [])
-    
+
+    const handleDelete = () => {
+        let localData = JSON.parse(localStorage.getItem("doctor"));
+        let deData = localData.filter((l) => l.id !== dId)
+        localStorage.setItem("doctor", JSON.stringify(deData));
+        setData(deData);
+        handleDClose();
+        setDId();
+    }
+
     const columns = [
-        { field: 'name', headerName: 'ID', width: 70 },
-        { field: 'email', headerName: 'First name', width: 130 },
-        { field: 'experience', headerName: 'Last name', width: 130 },
-        // {
-        //     field: 'action',
-        //     headerName: 'action',
-        //     renderCell: (params) => {
-        //         return (
-        //             <>
-        //                 <IconButton onClick={() => { setDId(params.row.id); setDOpen(true) }} aria-label="delete">
-        //                     <DeleteIcon />
-        //                 </IconButton>
-        //                 <IconButton onClick={() => { handleUpdate(params.row) }} aria-label="delete">
-        //                     <EditIcon />
-        //                 </IconButton>
-        //             </>
-        //         )
-        //     }
-        // }
-
-    ];
-
-    const rows = [
-        { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-        { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-        { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-        { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-        { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-        { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-        { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-        { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-        { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+        { field: 'id', headerName: 'ID', width: 70 },
+        { field: 'name', headerName: 'Name', width: 130 },
+        { field: 'mobile', headerName: 'Number', width: 130 },
+        { field: 'experience', headerName: 'Experience', width: 130 },
+        {
+            field: 'action',
+            headerName: 'action',
+            renderCell: (params) => {
+                return (
+                    <>
+                        <IconButton onClick={() => { setDId(params.row.id); setDOpen(true) }} aria-label="delete">
+                            <DeleteIcon />
+                        </IconButton>
+                        <IconButton onClick={() => { handleUpdate(params.row) }} aria-label="delete">
+                            <EditIcon />
+                        </IconButton>
+                    </>
+                )
+            }
+        }
     ];
 
     let schema = yup.object().shape({
         name: yup.string().required("Please enter the name").matches(/^[A-Za-z ]*$/, 'Please enter valid name')
             .max(40).required(),
-        email: yup.string().required().email(),
-        experience: yup.string().required("").matches(/^[0-9\b]+$/, 'please enter valid Experience'),
+        // gender: yup.string().required("price is required"),
+        experience: yup.string().required("quantity is required"),
+        gender: yup.string().required('Please select gender'),
+        mobile: yup.string().required("").test("mobile", "Phone number is not valid", value => {
+            if (value)
+                return value.toString().length === 10
+        }),
+
     });
 
-    const storeMeddata = (data) => {
-        alert("")
-        console.log(data);
+
+    const storedata = (values) => {
+
         let localData = JSON.parse(localStorage.getItem("doctor"));
+        let idData = Math.round(Math.random() * 1000);
+        let data = { ...values, id: idData };
+        // console.log(localData);
+
         if (localData !== null) {
             localData.push(data);
             localStorage.setItem("doctor", JSON.stringify(localData))
-            setMedData(localData);
+            // save data into state
+            setData(localData);
         } else {
             localStorage.setItem("doctor", JSON.stringify([data]));
-            setMedData(localData);
+            // save data into state
+            setData(data);
         }
     }
+    const handleUpdateData = (values) => {
+        let localData = JSON.parse(localStorage.getItem("doctor"));
+        let updateData = localData.map((l) => {
+            if (l.id === values.id) {
+                return values;
+            } else {
+                return l;
+            }
+        })
+        localStorage.setItem("doctor", JSON.stringify(updateData));
+        setData(updateData);
+        handleDClose();
+        setEid();
+        formikObj.resetForm();
+        // console.log(setEid());
+
+    }
+
     const formikObj = useFormik({
         initialValues: {
             name: '',
-            email: '',
             experience: '',
+            gender: '',
+            mobile: ''
         },
         validationSchema: schema,
         onSubmit: values => {
-            console.log(values);
-            storeMeddata(values);
+            {
+                if (Eid) {
+                    handleUpdateData(values);
+                } else {
+                    alert("")
+                    storedata(values);
+                }
+            }
+
             setOpen(false);
         },
     });
 
     const { handleChange, handleBlur, handleSubmit, setFieldTouched, errors, values, touched, setValues } = formikObj;
-    // const handleClickOpen = () => {
-    //     setOpen(true);
-    // };
 
+    const handleUpdate = (values) => {
+        setEid(values);
+        // console.log(values)
+        setOpen(true);
+        setValues(values);
+
+    }
     const handleClose = () => {
+        alert("close")
         setOpen(false);
     };
 
+    const handleDClose = () => {
+        setDOpen(false);
+    };
 
     return (
-        <div>
-            <div className='Text d-flex justify-content-between align-items-center'>
-                <h1>Doctor</h1>
-                <div className="text-end w-100">
-                    <button className='appointment-btn border-0 m-0 ' onClick={() => setOpen(true)}>Open Modal</button>
+        <>
+            <Dialog
+                open={Dopen}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Are you sure Delete the Data?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleDClose}>Disagree</Button>
+                    <Button onClick={() => handleDelete()} autoFocus>
+                        Agree
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <div className='Text d-flex justify-content-between'>
+                <h1>doctor</h1>
+                <div className="text-end"><button className='appointment-btn border-0 m-0 ' onClick={() => setOpen(true)}>Modal</button>
+
+                    <Dialog open={open} onClose={handleClose}>
+                        <Formik values={formikObj}>
+                            <Form className="php-email-form" onSubmit={handleSubmit}>
+                                {
+                                    Eid ? <DialogTitle>Update detail</DialogTitle> : <DialogTitle>Add detail</DialogTitle>
+                                }
+                                <DialogContent>
+                                    <TextField
+                                        margin="dense"
+                                        id="name"
+                                        label="Enter Your Name"
+                                        type="text"
+                                        fullWidth
+                                        value={values.name}
+                                        variant="standard"
+                                        onChange={e => {
+                                            setFieldTouched('name')
+                                            handleChange(e)
+                                        }}
+                                        onBlur={handleBlur}
+                                    />
+                                    {errors !== '' && touched.name ? <span>{errors.name}</span> : null}
+                                    <TextField
+                                        margin="dense"
+                                        id="mobile"
+                                        label="Enter Contact Number"
+                                        type="text"
+                                        fullWidth
+                                        value={values.mobile}
+                                        variant="standard"
+                                        onChange={e => {
+                                            setFieldTouched('mobile')
+                                            handleChange(e)
+                                        }}
+                                        onBlur={handleBlur}
+                                    />
+                                    {errors !== '' && touched.mobile ? <span>{errors.mobile}</span> : null}
+                                    <TextField
+                                        margin="dense"
+                                        id="experience"
+                                        label="Enter experience"
+                                        type="text"
+                                        value={values.experience}
+                                        fullWidth
+                                        variant="standard"
+                                        onChange={e => {
+                                            setFieldTouched('experience')
+                                            handleChange(e)
+                                        }}
+                                        onBlur={handleBlur}
+                                    />
+                                    {errors !== '' && touched.price ? <span>{errors.price}</span> : null}
+                                    {/* <TextField
+                                        margin="dense"
+                                        name="quantity"
+                                        label="Enter experience"
+                                        type="number"
+                                        value={values.quantity}
+                                        fullWidth
+                                        variant="standard"
+                                        onChange={e => {
+                                            setFieldTouched('quantity')
+                                            handleChange(e)
+                                        }}
+                                        onBlur={handleBlur}
+                                    />
+                                    {errors !== '' && touched.quantity ? <span>{errors.quantity}</span> : null} */}
+                                    {/* <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
+                                    <RadioGroup
+                                        aria-labelledby="demo-radio-buttons-group-label"
+                                        defaultValue="female"
+                                        name="radio-buttons-group"
+                                    >
+                                        <FormControlLabel value="female" name="gender" control={<Radio />} label="Female" />
+                                        <FormControlLabel value="male" name="gender" control={<Radio />} label="Male" />
+                                    </RadioGroup> */}
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={handleClose}>Cancel</Button>
+                                    {
+                                        Eid ? <Button type='submit'>Update</Button> : <Button type='submit'>Submit</Button>
+                                    }
+
+                                </DialogActions>
+                            </Form>
+                        </Formik>
+                    </Dialog>
+                    {/* </Modal> */}
+
                 </div>
 
-                <Dialog open={open} onClose={handleClose}>
-                    <Formik values={formikObj}>
-                        <Form className="php-email-form" onSubmit={handleSubmit}>
-                            <DialogTitle>Subscribe</DialogTitle>
-                            <DialogContent>
-                                <TextField
-                                    margin="dense"
-                                    id="name"
-                                    name="name"
-                                    label="Doctor Name"
-                                    type="name"
-                                    fullWidth
-                                    variant="standard"
-                                    onChange={e => {
-                                        setFieldTouched('name')
-                                        handleChange(e)
-                                    }}
-                                    onBlur={handleBlur}
-                                />
-                                {errors !== '' && touched.name ? <span>{errors.name}</span> : null}
-                                <TextField
-                                    margin="dense"
-                                    id="email"
-                                    name="email"
-                                    label="Email Id"
-                                    type="name"
-                                    fullWidth
-                                    variant="standard"
-                                    onChange={e => {
-                                        setFieldTouched('email')
-                                        handleChange(e)
-                                    }}
-                                    onBlur={handleBlur}
-                                />
-                                {errors !== '' && touched.email ? <span>{errors.email}</span> : null}
-                                <TextField
-                                    margin="dense"
-                                    id="experience"
-                                    name="experience"
-                                    label="Experience"
-                                    type="text"
-                                    fullWidth
-                                    variant="standard"
-                                    onChange={e => {
-                                        setFieldTouched('experience')
-                                        handleChange(e)
-                                    }}
-                                    onBlur={handleBlur}
-                                />
-                                {errors !== '' && touched.experience ? <span>{errors.experience}</span> : null}
-                            </DialogContent>
-                            <DialogActions>
-                                <Button onClick={handleClose}>Cancel</Button>
-                                <Button type="submit" >Submitt</Button>
-                            </DialogActions>
-                        </Form>
-                    </Formik>
-                </Dialog>
-
             </div>
-
             <div style={{ height: 400, width: '100%' }}>
                 <DataGrid
                     rows={medData}
@@ -177,7 +273,7 @@ function Doctor(props) {
                     checkboxSelection
                 />
             </div>
-        </div>
+        </>
     );
 }
 

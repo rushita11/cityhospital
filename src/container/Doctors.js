@@ -56,7 +56,7 @@ const data = [
   }
 ]
 
-function Doctor(props) {
+function Doctors(props) {
   return (
     <section id="doctors" className="doctors">
       <div className="container">
@@ -74,4 +74,4 @@ function Doctor(props) {
   );
 }
 
-export default Doctor;
+export default Doctors;

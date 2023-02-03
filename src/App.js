@@ -5,7 +5,6 @@ import Header from './Component/Header/Header';
 import Footer from './Component/Footer/Footer';
 import Home from './container/Home';
 import Appointment from './container/Appointment';
-// import Doctor from './container/Doctor';
 import Department from './container/Department';
 import Contact from './container/Contact';
 import About from './container/About';
@@ -19,30 +18,33 @@ import Layout from "./admin/Component/Layout/Layout";
 import Doctor from "./admin/Container/Doctor/Doctor";
 import PublicRoute from "./routes/PublicRoute";
 import PrivateRoute from "./routes/PrivateRoute";
-function App() {
-  return (
-    < >
-      {/* <Header />
-      <Switch>
-        <PublicRoute exact path={"/forgetpass"} restricted={true} component={Forgetpass} />
-        <PublicRoute exact path={"/"} component={Home} />
-        <PublicRoute exact path={"/about"} component={About} />
-        <PublicRoute exact path={"/doctor"} component={Doctor} />
-        <PublicRoute exact path={"/contact"} component={Contact} />
-        <PublicRoute exact path={"/department"} component={Department} />
-        <PublicRoute exact path={"/signup"} restricted={true} component={Signup} />
-        <PublicRoute exact path={"/login"} restricted={true} component={Login} />
-        <PrivateRoute exact path={"/medicin"} component={Medicin} />
-      </Switch>
-      <Footer /> */}
-      <Layout>
+import Doctors from "./container/Doctors"
+  function App() {
+    return (
+      < >
+        <Header />
+        <Switch>
+          // <PublicRoute exact path={"/forgetpass"} restricted={true} component={Forgetpass} />
+          <PublicRoute exact path={"/"} component={Home} />
+          <PublicRoute exact path={"/about"} component={About} />
+          <PublicRoute exact path={"/doctor"} component={Doctor} />
+          <PublicRoute exact path={"/contact"} component={Contact} />
+          <PublicRoute exact path={"/department"} component={Department} />
+          <PublicRoute exact path={"/signup"} restricted={true} component={Signup} />
+          <PublicRoute exact path={"/login"} restricted={true} component={Login} />
+          <PrivateRoute exact path={"/medicin"} component={Medicin} />
+          <PrivateRoute exact path={"/doctors"} component ={Doctors}/>
+        </Switch>
+        <Footer />
+        <Layout>
         <Switch>
           <Route exact path={"/medicins"} component={Medicins} />
           <Route exact path={"/doctor"} component={Doctor} />
         </Switch>
       </Layout>
-    </>
-  );
-}
+      </>
+    );
+  }
+// import Doctors from "./container/Doctors";
 
 export default App;
