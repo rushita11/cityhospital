@@ -22,7 +22,7 @@ import PrivateRoute from "./routes/PrivateRoute";
 function App() {
   return (
     <>
-      {/* <Header />
+      <Header />
       <Switch>
         <PublicRoute exact path={"/forgetpass"} restricted={true} component={Forgetpass} />
         <PublicRoute exact path={"/"} component={Home} />
@@ -34,13 +34,13 @@ function App() {
         <PublicRoute exact path={"/login"} restricted={true} component={Login} />
         <PrivateRoute exact path={"/medicin"} component={Medicin} />
       </Switch>
-      <Footer /> */}
-      <Layout>
+      <Footer />
+      {/* <Layout>
         <Switch>
           <Route exact path={"/medicins"} component={Medicins} />
           <Route exact path={"/doctor"} component={Doctor} />
         </Switch>
-      </Layout>
+      </Layout> */}
     </>
   );
 }

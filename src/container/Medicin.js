@@ -1,13 +1,19 @@
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import List from '../Component/List/List';
 
 
+
 function Medicin(props) {
     const [data, setData] = useState([]);
     const [filterData, setFilterData] = useState()
-
+    const [users, setUsers] = useState([
+        { id: 1, name: "One" },
+        { id: 2, name: "Two" },
+        { id: 3, name: "Three" }
+    ]);
     useEffect(() => {
         let localData = JSON.parse(localStorage.getItem("medicine"));
 
@@ -16,26 +22,10 @@ function Medicin(props) {
         }
     }, []);
 
-    // const handlefilter = (value) => {
-    //     let fData = data.filter((d) =>
-    //         (d.name.toLowerCase() === value.toLowerCase())
-    //     )
-    //     console.log(fData)
-    //     if(fData.length > 0){
-    //         setData(fData);
-    //         console.log(setData(fData))
-    //     }
-    //     else{
-    //         setData(data);
-    //     }
-    //     // let finalData = fData.length > 0 ? setData(fData): setData(data);
-    //     // console.log(fData)
-    //     // setData(fData);
-    // }
     const handlefilter = (val) => {
         if (val !== '') {
-            let fData = data.filter((d) =>(
-                d.name.toLowerCase().includes(val.toLowerCase()) || 
+            let fData = data.filter((d) => (
+                d.name.toLowerCase().includes(val.toLowerCase()) ||
                 d.price.toString().includes(val)
             ))
             setFilterData(fData)
@@ -47,8 +37,18 @@ function Medicin(props) {
 
     let finalData = filterData ? filterData : data;
 
+    const sorting = (e) => {
+        const sortDirection = e.target.value;
+        // console.log(sortDirection);
+        const copyArray = [...data];
+        console.log(copyArray);
+        copyArray.sort((a, b) => {
+            return sortDirection === "0" ? a.price - b.price : b.price- a.price;
+            // console.log(sortDirection);
+        });
+        setUsers(copyArray);
+    }
 
-    console.log(finalData);
 
     return (
         <>
@@ -67,13 +67,29 @@ function Medicin(props) {
                         placeholder='Search....'
                         onChange={(e) => handleFilter(e.target.value)}
                     /> */}
-                    <input
-                        type={"text"}
-                        name="search"
-                        placeholder='Seach...'
-                        onChange={(e) => handlefilter(e.target.value)}
-                    />
+                    <div className="d-flex gap-5" >
+                        <FormControl fullWidth>
+                            {/* <InputLabel id="demo-simple-select-label">Sorting</InputLabel> */}
+                            <select defaultValue={0} onChange={sorting}>
+                                <option value={1}>High to Low</option>
+                                <option value={0}>Low to High</option>
+                            </select>
+                        </FormControl>
 
+                        <input
+                            type={"text"}
+                            name="search"
+                            placeholder='Seach...'
+                            onChange={(e) => handlefilter(e.target.value)}
+                        />
+
+                    </div>
+                    {finalData.map((finalData) => (
+
+                        <div key={finalData.price}>
+                            {finalData.name} - {finalData.price}
+                        </div>
+                    ))}
                     <List listdata={finalData} />
 
                 </div>

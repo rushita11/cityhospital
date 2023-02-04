@@ -213,7 +213,7 @@ function Doctor(props) {
                                         onBlur={handleBlur}
                                     />
                                     {errors !== '' && touched.price ? <span>{errors.price}</span> : null}
-            
+
                                 </DialogContent>
                                 <DialogActions>
                                     <Button onClick={handleClose}>Cancel</Button>

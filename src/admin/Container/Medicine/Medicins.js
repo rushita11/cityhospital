@@ -45,12 +45,12 @@ function Medicins(props) {
             renderCell: (params) => {
                 return (
                     <>
-                        {/* <IconButton onClick={() => { setDId(params.row.id); setDOpen(true) }} aria-label="delete">
+                        <IconButton onClick={() => { setDId(params.row.id); setDOpen(true) }} aria-label="delete">
                             <DeleteIcon />
                         </IconButton>
                         <IconButton onClick={() => { handleUpdate(params.row) }} aria-label="delete">
                             <EditIcon />
-                        </IconButton> */}
+                        </IconButton>
                     </>
                 )
             }
