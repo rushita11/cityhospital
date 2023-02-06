@@ -4,11 +4,10 @@ import { Row } from "reactstrap"
 function List({ listdata }) {
     return (
         <>
-            <Row>
+            <Row className='mt-4'>
                 {listdata.map((p, i) => {
                     return (
                         <>
-
                             <div className="col-lg-6" >
                                 <div className="member d-flex align-items-start">
                                     {

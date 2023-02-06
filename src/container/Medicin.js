@@ -9,16 +9,17 @@ import List from '../Component/List/List';
 function Medicin(props) {
     const [data, setData] = useState([]);
     const [filterData, setFilterData] = useState()
-    const [users, setUsers] = useState([
-        { id: 1, name: "One" },
-        { id: 2, name: "Two" },
-        { id: 3, name: "Three" }
-    ]);
+    // const [users, setUsers] = useState([
+    //     { id: 1, name: "One" },
+    //     { id: 2, name: "Two" },
+    //     { id: 3, name: "Three" }
+    // ]);
     useEffect(() => {
         let localData = JSON.parse(localStorage.getItem("medicine"));
 
         if (localData !== null) {
             setData(localData)
+            console.log(setData)
         }
     }, []);
 
@@ -38,15 +39,32 @@ function Medicin(props) {
     let finalData = filterData ? filterData : data;
 
     const sorting = (e) => {
+
         const sortDirection = e.target.value;
         // console.log(sortDirection);
         const copyArray = [...data];
         console.log(copyArray);
         copyArray.sort((a, b) => {
-            return sortDirection === "0" ? a.price - b.price : b.price- a.price;
-            // console.log(sortDirection);
+            // return sortDirection === "0" ? a.price - b.price : b.price - a.price;
+            if (sortDirection === "0") {
+                return a.price - b.price;
+            } else if (sortDirection === "1") {
+                // alert("")
+                return b.price - a.price;
+            } else if (sortDirection === "2") {
+                // alert("2")
+                // alert("")
+               let p =  a.name.localeCompare(b.name);
+               console.log("hii");
+                // alert("1")
+                //    if (val === "name") {
+                //     return a.name.localeCompare(b.name)
+            }
+            
+
+            console.log(sortDirection);
         });
-        setUsers(copyArray);
+        setData(copyArray);
     }
 
 
@@ -67,12 +85,14 @@ function Medicin(props) {
                         placeholder='Search....'
                         onChange={(e) => handleFilter(e.target.value)}
                     /> */}
-                    <div className="d-flex gap-5" >
+                    <div className="d-flex gap-5 mt-3" >
                         <FormControl fullWidth>
                             {/* <InputLabel id="demo-simple-select-label">Sorting</InputLabel> */}
                             <select defaultValue={0} onChange={sorting}>
                                 <option value={1}>High to Low</option>
                                 <option value={0}>Low to High</option>
+                                <option value={2}>A to Z</option>
+                                <option value={3}>Z to A</option>
                             </select>
                         </FormControl>
 
@@ -84,12 +104,12 @@ function Medicin(props) {
                         />
 
                     </div>
-                    {finalData.map((finalData) => (
+                    {/* {finalData.map((finalData) => (
 
                         <div key={finalData.price}>
                             {finalData.name} - {finalData.price}
                         </div>
-                    ))}
+                    ))} */}
                     <List listdata={finalData} />
 
                 </div>

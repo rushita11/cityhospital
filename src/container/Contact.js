@@ -105,7 +105,7 @@ function Contact(props) {
                                 <Form className="php-email-form" onSubmit={handleSubmit}>
                                     <div className="row">
                                         <div className="col-md-6 form-group">
-                                           Su
+                                            Su
                                         </div>
                                         <div className="col-md-6 form-group mt-3 mt-md-0">
                                             <input
@@ -138,6 +138,8 @@ function Contact(props) {
                                                 onBlur={handleBlur}
                                             />
                                             {errors !== '' && touched.mobile ? <span>{errors.mobile}</span> : null}
+                                            {/* <FormControl> */}
+
                                         </div>
 
                                         <div className="col-md-6 form-group mt-3 mt-md-0">
