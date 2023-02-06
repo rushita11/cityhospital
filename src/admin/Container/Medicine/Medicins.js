@@ -38,7 +38,7 @@ function Medicins(props) {
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'name', headerName: 'Name', width: 130 },
         { field: 'price', headerName: 'Price', width: 130 },
-        { field: 'quantity', headerName: 'Quantity', width: 130 },
+        { field: 'expiry', headerName: 'Expiry Date', width: 130 },
         {
             field: 'action',
             headerName: 'action',
@@ -62,7 +62,7 @@ function Medicins(props) {
             .max(40).required(),
         price: yup.string().required("price is required"),
         quantity: yup.string().required("quantity is required"),
-
+        expiry: yup.date().min(new Date().getFullYear()).required("Expiry is required Field"),
     });
 
 
@@ -106,7 +106,8 @@ function Medicins(props) {
         initialValues: {
             name: '',
             price: '',
-            quantity: ''
+            quantity: '',
+            expiry: ''
         },
         validationSchema: schema,
         onSubmit: values => {
@@ -115,6 +116,7 @@ function Medicins(props) {
                     handleUpdateData(values);
                 } else {
                     storeMeddata(values);
+                    resetForm();
                 }
             }
 
@@ -122,7 +124,7 @@ function Medicins(props) {
         },
     });
 
-    const { handleChange, handleBlur, handleSubmit, setFieldTouched, errors, values, touched, setValues } = formikObj;
+    const { handleChange, handleBlur, handleSubmit, setFieldTouched, errors, values, touched, setValues, resetForm } = formikObj;
 
     const handleUpdate = (values) => {
         setEid(values);
@@ -215,6 +217,21 @@ function Medicins(props) {
                                         onBlur={handleBlur}
                                     />
                                     {errors !== '' && touched.quantity ? <span>{errors.quantity}</span> : null}
+                                    <TextField
+                                        margin="dense"
+                                        name="expiry"
+                                        label="Enter Expiry"
+                                        type="text"
+                                        value={values.expiry}
+                                        fullWidth
+                                        variant="standard"
+                                        onChange={e => {
+                                            setFieldTouched('expiry')
+                                            handleChange(e)
+                                        }}
+                                        onBlur={handleBlur}
+                                    />
+                                    {errors !== '' && touched.expiry ? <span>{errors.expiry}</span> : null}
                                 </DialogContent>
                                 <DialogActions>
                                     <Button onClick={handleClose}>Cancel</Button>

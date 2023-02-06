@@ -21,9 +21,11 @@ function List({ listdata }) {
                                             p.price === undefined ? null : <p>Rs: {p.price}</p>
                                         }
                                         {
-                                            p.qty === undefined ? null : <p>Qty: {p.qty}</p>
+                                            p.quantity === undefined ? null : <p>Qty: {p.quantity}</p>
                                         }
-
+                                         {
+                                            p.expiry === undefined ? null : <p>Expiry: {p.expiry}</p>
+                                        }
                                         <p>{p.desc}</p>
                                         {
                                             p.social === undefined ? null : <div className="social">

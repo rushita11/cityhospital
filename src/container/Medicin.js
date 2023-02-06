@@ -8,7 +8,9 @@ import List from '../Component/List/List';
 
 function Medicin(props) {
     const [data, setData] = useState([]);
-    const [filterData, setFilterData] = useState()
+    const [filterData, setFilterData] = useState();
+    const [sortData, setSortData] = useState();
+    const [sort, setSort] = useState();
     // const [users, setUsers] = useState([
     //     { id: 1, name: "One" },
     //     { id: 2, name: "Two" },
@@ -27,46 +29,101 @@ function Medicin(props) {
         if (val !== '') {
             let fData = data.filter((d) => (
                 d.name.toLowerCase().includes(val.toLowerCase()) ||
-                d.price.toString().includes(val)
+                d.price.toString().includes(val) ||
+                d.quantity.toString().includes(val)
             ))
             setFilterData(fData)
 
         } else {
             setFilterData()
+            sorting(sort, 'yes');
         }
     }
 
-    let finalData = filterData ? filterData : data;
+    // const sorting = (val, empty='') => {
+    //     let FData = filterData && empty === '' ? filterData : data;
 
-    const sorting = (e) => {
+    //     setSort(val);
+    //     if (val !== '0') {
+    //         let sData = FData.sort((a, b) => {
+    //             if (val === 'lh') {
+    //                 return a.price - b.price
+    //             } else if (val === 'hl') {
+    //                 return b.price - a.price
+    //             } else if (val === 'az') {
+    //                 return a.name.localeCompare(b.name);
+    //             } else if (val === 'za') {
+    //                 return b.name.localeCompare(a.name);
+    //             }
+    //         });
+    //         setSortData(sData)
+    //         console.log(sData);
+    //     } else {
+    //         setSortData();
+    //     }
+    // }
 
-        const sortDirection = e.target.value;
-        // console.log(sortDirection);
-        const copyArray = [...data];
-        console.log(copyArray);
-        copyArray.sort((a, b) => {
-            // return sortDirection === "0" ? a.price - b.price : b.price - a.price;
-            if (sortDirection === "0") {
-                return a.price - b.price;
-            } else if (sortDirection === "1") {
-                // alert("")
-                return b.price - a.price;
-            } else if (sortDirection === "2") {
-                // alert("2")
-                // alert("")
-               let p =  a.name.localeCompare(b.name);
-               console.log("hii");
-                // alert("1")
-                //    if (val === "name") {
-                //     return a.name.localeCompare(b.name)
-            }
-            
+    const sorting = (val, empty = '') => {
+        let FData = filterData && empty === '' ? filterData : data;
+        setSort(val)
+        console.log(val)
+        if (val !== 0) {
+            let sData = FData.sort((a, b) => {
+                if (val === "hl") {
+                    return b.price - a.price
+                } else if (val === "lh") {
+                    return a.price - b.price
+                } else if (val === 'az') {
+                    return a.name.localeCompare(b.name)
+                } else if (val === "za") {
+                    return b.name.localeCompare(a.name)
+                } else if (val === "qh") {
+                    return b.quantity - a.quantity
+                } else if (val === "ql") {
+                    return a.quantity - b.quantity
+                } else if (val === 'eh') {
+                    return a.expiry > b.expiry ? 1 : -1
+                } else if(val === "el"){
+                    return b.expiry > a.expiry ? 1 : -1
+                }
+            })
+            console.log(sData)
+            setSortData(sData)
+        } else {
 
-            console.log(sortDirection);
-        });
-        setData(copyArray);
+        }
     }
 
+    // const sorting = (e) => {
+
+    //     const sortDirection = e.target.value;
+    //     // console.log(sortDirection);
+    //     const copyArray = [...data];
+    //     console.log(copyArray);
+    //     copyArray.sort((a, b) => {
+    //         // return sortDirection === "0" ? a.price - b.price : b.price - a.price;
+    //         if (sortDirection === "0") {
+    //             return a.price - b.price;
+    //         } else if (sortDirection === "1") {
+    //             // alert("")
+    //             return b.price - a.price;
+    //         } else if (sortDirection === "2") {
+    //             // alert("2")
+    //             // alert("")
+    //            let p =  a.name.localeCompare(b.name);
+    //            console.log("hii");
+    //             // alert("1")
+    //             //    if (val === "name") {
+    //             //     return a.name.localeCompare(b.name)
+    //         }
+
+
+    //         console.log(sortDirection);
+    //     });
+    //     setData(copyArray);
+    // }
+
+    let finalData = filterData ? filterData : sortData ? sortData : data;
 
     return (
         <>
@@ -88,11 +145,16 @@ function Medicin(props) {
                     <div className="d-flex gap-5 mt-3" >
                         <FormControl fullWidth>
                             {/* <InputLabel id="demo-simple-select-label">Sorting</InputLabel> */}
-                            <select defaultValue={0} onChange={sorting}>
-                                <option value={1}>High to Low</option>
-                                <option value={0}>Low to High</option>
-                                <option value={2}>A to Z</option>
-                                <option value={3}>Z to A</option>
+                            <select defaultValue={0} value={sort} onChange={(e) => sorting(e.target.value)}>
+                                <option value="0">--Select Sorting--</option>
+                                <option value='hl'>High to Low</option>
+                                <option value='lh'>Low to High</option>
+                                <option value='az'>A to Z</option>
+                                <option value='za'>Z to A</option>
+                                <option value='qh'>High to Low quantity</option>
+                                <option value='ql'>Low to High quantity</option>
+                                <option value='eh'>Low to High Expiry</option>
+                                <option value='el'>High to Low Expiry</option>
                             </select>
                         </FormControl>
 
