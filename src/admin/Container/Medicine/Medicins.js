@@ -67,7 +67,6 @@ function Medicins(props) {
 
 
     const storeMeddata = (values) => {
-
         let localData = JSON.parse(localStorage.getItem("medicine"));
         let idData = Math.round(Math.random() * 1000);
         let data = { ...values, id: idData };
@@ -119,7 +118,6 @@ function Medicins(props) {
                     resetForm();
                 }
             }
-
             setOpen(false);
         },
     });
@@ -136,11 +134,9 @@ function Medicins(props) {
     const handleClose = () => {
         setOpen(false);
     };
-
     const handleDClose = () => {
         setDOpen(false);
     };
-
     return (
         <>
             <Dialog

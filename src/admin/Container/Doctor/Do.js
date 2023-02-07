@@ -1,185 +1,162 @@
-// import React, { useEffect, useState } from 'react';
-import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
+import { EditLocation } from '@mui/icons-material';
+import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField } from '@mui/material';
 import { Form, Formik, useFormik } from 'formik';
-import React, { useEffect } from 'react';
-import { useState,  } from 'react';
+import React, { useState } from 'react';
 import { Button } from 'reactstrap';
 import * as yup from 'yup';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+import EditIcon from '@mui/icons-material/Edit';
+import { DataGrid } from '@mui/x-data-grid';
 
 
+function Do(props) {
+    const [open, setOpen] = React.useState(false);
+    const [doData, setDoData] = useState([]);
 
-function Doctor(props) {
-    const [open, setOpen] = useState(false);
-    const [medData, setMeddata] = useState([]);
 
-    useEffect(() => {
-        let localData = JSON.parse(localStorage.getItem("doctor"));
-        if (localData !== null) {
-            setMeddata(localData);
-        }
-    }, [])
-    
-    const columns = [
-        { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'name', headerName: 'ID', width: 70 },
-        { field: 'email', headerName: 'First name', width: 130 },
-        { field: 'experience', headerName: 'Last name', width: 130 },
-        // {
-        //     field: 'action',
-        //     headerName: 'action',
-        //     renderCell: (params) => {
-        //         return (
-        //             <>
-        //                 <IconButton onClick={() => { setDId(params.row.id); setDOpen(true) }} aria-label="delete">
-        //                     <DeleteIcon />
-        //                 </IconButton>
-        //                 <IconButton onClick={() => { handleUpdate(params.row) }} aria-label="delete">
-        //                     <EditIcon />
-        //                 </IconButton>
-        //             </>
-        //         )
-        //     }
-        // }
-
-    ];
-
-    const rows = [
-        { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-        { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-        { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-        { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-        { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-        { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-        { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-        { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-        { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-    ];
-
-    let schema = yup.object().shape({
-        name: yup.string().required("Please enter the name").matches(/^[A-Za-z ]*$/, 'Please enter valid name')
-            .max(40).required(),
-        email: yup.string().required().email(),
-        experience: yup.string().required("").matches(/^[0-9\b]+$/, 'please enter valid Experience'),
-    });
-
-    const storeMeddata = (data) => {
-        alert("")
-        console.log(data);
-        let localData = JSON.parse(localStorage.getItem("doctor"));
-        if (localData !== null) {
-            localData.push(data);
-            localStorage.setItem("doctor", JSON.stringify(localData))
-            setMeddata(localData);
-        } else {
-            localStorage.setItem("doctor", JSON.stringify([data]));
-            setMeddata(localData);
-        }
-    }
-    const formikObj = useFormik({
-        initialValues: {
-            name: '',
-            email: '',
-            experience: '',
-        },
-        validationSchema: schema,
-        onSubmit: values => {
-            console.log(values);
-            storeMeddata(values);
-            setOpen(false);
-        },
-    });
-
-    const { handleChange, handleBlur, handleSubmit, setFieldTouched, errors, values, touched, setValues } = formikObj;
-    // const handleClickOpen = () => {
-    //     setOpen(true);
-    // };
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
 
     const handleClose = () => {
         setOpen(false);
     };
 
+    // column fot the table.
+    const columns = [
+        { field: 'id', headerName: 'ID', width: 70 },
+        { field: 'name', headerName: 'Name', width: 130 },
+        { field: 'email', headerName: 'Email', width: 130 },
+        {
+            field: 'action',
+            headerName: 'action',
+            renderCell: (params) => {
+                return (
+                    <>
+                    {/* icon for the delete and edit */}
+                        <IconButton aria-label="delete">
+                            <DeleteIcon />
+                        </IconButton>
+                        <IconButton aria-label="delete">
+                            <EditIcon />
+                        </IconButton>
+                    </>
+                )
+            }
+        }
+    ];
 
+    // validate the form filed using formik anf yup required the download and import yup and formik. 
+    // when form validation using the formik form and Formik import from formik is required.
+    let schema = yup.object().shape({
+        name: yup.string().required().matches(/^[A-Za-z ]*$/, 'Please enter valid name'),
+        email: yup.string().required(),
+    });
+    const storeDoData = (values) => {
+        // data store in local and add condition for check data already store. If data already store then new data push in current data. If not available any data make new key and store the current data.
+        let localDoData = JSON.parse(localStorage.getItem("doctor"));
+        // generatet random ID
+        let idData = Math.round(Math.random() * 1000);
+
+        // destructring the data
+        let doData = { ...values, id: idData }
+        if (localDoData !== null) {
+            localDoData.push(doData)
+            localStorage.setItem("doctor", JSON.stringify(localDoData))
+            setDoData(localDoData)
+        }
+
+        // when not any data the new data set in localstorage.
+        else {
+            localStorage.setItem("doctor", JSON.stringify([doData]));
+            setDoData(doData);
+        }
+
+    }
+    console.log(doData);
+
+    // make a formik object
+    const formik = useFormik({
+        initialValues: {
+            name: '',
+            email: '',
+        },
+
+        // that is required for showing the error
+        validationSchema: schema,
+        onSubmit: values => {
+            console.log(values)
+            setOpen(false)
+            storeDoData(values)
+        },
+    });
+    const { handleChange, handleBlur, handleSubmit, setFieldTouched, errors, touched, } = formik  // destructoing the formik method
     return (
-        <div>
-            <div className='Text d-flex justify-content-between align-items-center'>
+        <>
+            <div className='Text d-flex justify-content-between'>
                 <h1>Doctor</h1>
-                <div className="text-end w-100">
-                    <button className='appointment-btn border-0 m-0 ' onClick={() => setOpen(true)}>Open Modal</button>
-                </div>
-
-                <Dialog open={open} onClose={handleClose}>
-                    <Formik values={formikObj}>
-                        <Form className="php-email-form" onSubmit={handleSubmit}>
-                            <DialogTitle>Subscribe</DialogTitle>
+                <div className="text-end"><Button className="appointment-btn border-0 m-0" onClick={() => handleClickOpen()}>open Modal</Button></div>
+                <Dialog open={open} onClose={() => handleClose()}>
+                    <Formik values={formik} >
+                        <Form onSubmit={handleSubmit}>
+                            <DialogTitle>Add Doctor</DialogTitle>
                             <DialogContent>
                                 <TextField
+                                    autoFocus
                                     margin="dense"
                                     id="name"
+                                    label="Please enter You name"
+                                    type="text"
                                     name="name"
-                                    label="Doctor Name"
-                                    type="name"
                                     fullWidth
                                     variant="standard"
-                                    onChange={e => {
-                                        setFieldTouched('name')
+                                    onChange={(e) => {
                                         handleChange(e)
+                                        setFieldTouched('name')
                                     }}
-                                    onBlur={handleBlur}
+                                    onBlur={() => handleBlur()}
                                 />
-                                {errors !== '' && touched.name ? <span>{errors.name}</span> : null}
+                                {errors !== " " && touched.name ? <span>{errors.name}</span> : null}
                                 <TextField
+                                    autoFocus
                                     margin="dense"
                                     id="email"
+                                    label="Please enter You email"
+                                    type="email"
                                     name="email"
-                                    label="Email Id"
-                                    type="name"
                                     fullWidth
                                     variant="standard"
-                                    onChange={e => {
+                                    onChange={(e) => {
+                                        handleChange(e)
                                         setFieldTouched('email')
-                                        handleChange(e)
                                     }}
-                                    onBlur={handleBlur}
+                                    onBlur={() => handleBlur()}
                                 />
-                                {errors !== '' && touched.email ? <span>{errors.email}</span> : null}
-                                <TextField
-                                    margin="dense"
-                                    id="experience"
-                                    name="experience"
-                                    label="Experience"
-                                    type="text"
-                                    fullWidth
-                                    variant="standard"
-                                    onChange={e => {
-                                        setFieldTouched('experience')
-                                        handleChange(e)
-                                    }}
-                                    onBlur={handleBlur}
-                                />
-                                {errors !== '' && touched.experience ? <span>{errors.experience}</span> : null}
+                                {errors !== " " && touched.email ? <span>{errors.email}</span> : null}
                             </DialogContent>
                             <DialogActions>
-                                <Button onClick={handleClose}>Cancel</Button>
-                                <Button type="submit" >Submitt</Button>
+                                <Button onClick={() => handleClose()}>Cancel</Button>
+                                <Button type="submit">Submit</Button>
                             </DialogActions>
                         </Form>
                     </Formik>
                 </Dialog>
-
             </div>
 
+            {/* Data showing in the table.  */}
             <div style={{ height: 400, width: '100%' }}>
                 <DataGrid
-                    rows={medData}
+                // state data show in row
+                    rows={doData}
                     columns={columns}
                     pageSize={5}
                     rowsPerPageOptions={[5]}
                     checkboxSelection
                 />
             </div>
-        </div>
+        </>
     );
 }
 
-export default Doctor;
+export default Do;
