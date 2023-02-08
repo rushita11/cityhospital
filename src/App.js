@@ -20,7 +20,10 @@ import Doctor from "./admin/Container/Doctor/Doctor";
 import PublicRoute from "./routes/PublicRoute";
 import PrivateRoute from "./routes/PrivateRoute";
 import Do from './admin/Container/Doctor/Do'
+import { configureStore } from "./redux/store";
 function App() {
+  const store = configureStore();
+  
   return (
     <>
       {/* <Header />
