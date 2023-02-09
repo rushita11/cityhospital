@@ -21,9 +21,11 @@ import PublicRoute from "./routes/PublicRoute";
 import PrivateRoute from "./routes/PrivateRoute";
 import Do from './admin/Container/Doctor/Do'
 import { configureStore } from "./redux/store";
+import { Provider } from "react-redux";
+import Counter from "./container/Counter";
 function App() {
   const store = configureStore();
-  
+
   return (
     <>
       {/* <Header />
@@ -39,12 +41,14 @@ function App() {
         <PrivateRoute exact path={"/medicin"} component={Medicin} />
       </Switch>
       <Footer /> */}
-      <Layout>
-        <Switch>
-          <Route exact path={"/medicins"} component={Medicins} />
-          <Route exact path={"/doctor"} component={Do} />
-        </Switch>
-      </Layout>
+      <Provider store={store}>
+        <Layout>
+          <Switch>
+            <Route exact path={"/medicins"} component={Counter} />
+            <Route exact path={"/doctor"} component={Do} />
+          </Switch>
+        </Layout>
+      </Provider>
     </>
   );
 }
