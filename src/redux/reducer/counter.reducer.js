@@ -1,23 +1,19 @@
-import * as ActionTypes from '../ActionTypes';
-
+import * as ActionType from '../ActionType'
 const initialState = {
     count: 0
 }
-
 export const counterReducer = (state = initialState, action) => {
-    console.log(action.type, state);
     switch (action.type) {
-        case ActionTypes.INCREMENT_COUNTER:
+        case ActionType.INCREMENT_COUNTER:
             return {
-                ...state,
                 count: state.count + 1
             }
-        case ActionTypes.DECREMENT_COUNTER:
+        case ActionType.DECREMENT_COUNTER:
             return {
-                ...state,
                 count: state.count - 1
             }
-        default:
+        default: {
             return state
+        }
     }
 }

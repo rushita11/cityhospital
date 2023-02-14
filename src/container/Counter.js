@@ -4,7 +4,7 @@ import { decrement, increment } from '../redux/action/counter.action';
 
 function Counter(props) {
     const dispatch = useDispatch();
-    const counterData = useSelector(state => state.counter);
+    const counterData = useSelector(state => state.count);
     console.log(counterData);
 
     const handleIncrement = () => {
