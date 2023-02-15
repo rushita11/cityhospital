@@ -8,6 +8,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import * as yup from 'yup';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
+import { useDispatch, useSelector } from 'react-redux';
+import { getMedicine } from '../../../redux/action/medicins.action';
 
 
 function Medicins(props) {
@@ -18,11 +20,16 @@ function Medicins(props) {
     const [open, setOpen] = React.useState(false)
 
 
+    const dispatch = useDispatch();
+    const medicineData = useSelector(state => state.medicine)
+    console.log(medicineData.medicines)
     useEffect(() => {
         let localData = JSON.parse(localStorage.getItem("medicine"));
         if (localData !== null) {
             setMedData(localData);
         }
+
+        dispatch(getMedicine());
     }, [])
 
     const handleDelete = () => {
@@ -137,6 +144,11 @@ function Medicins(props) {
     const handleDClose = () => {
         setDOpen(false);
     };
+
+
+   
+
+
     return (
         <>
             <Dialog
@@ -245,8 +257,9 @@ function Medicins(props) {
 
             </div>
             <div style={{ height: 400, width: '100%' }}>
+                
                 <DataGrid
-                    rows={medData}
+                    rows={medicineData.medicines}
                     columns={columns}
                     pageSize={5}
                     rowsPerPageOptions={[5]}
