@@ -4,21 +4,34 @@
       "id": 1,
       "name": "json-server",
       "price": 34,
-      "expiry":2023
+      "expiry": 2023
     },
     {
       "id": 2,
       "name": "json-server",
       "price": 23,
-      "expiry":2025
+      "expiry": 2025
     },
     {
       "id": 3,
       "name": "json-server",
       "price": 56,
-      "expiry":2028
+      "expiry": 2028
+    },
+    {
+      "name": "Rt",
+      "price": 23,
+      "quantity": 45,
+      "expiry": "2023",
+      "id": 4
+    },
+    {
+      "name": "Rt",
+      "price": 23,
+      "quantity": 45,
+      "expiry": "2023",
+      "id": 5
     }
-
   ],
   "comments": [
     {

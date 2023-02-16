@@ -14,6 +14,12 @@ export const medicinReducer = (state = initialState, action) => {
                 medicines: action.payload
             }
         }
+        case ActionType.MEDICINE_POST:{
+            return {
+                ...state,
+                medicines:state.medicines.concat(action.payload)
+            }
+        }
         default: {
             return state
         }

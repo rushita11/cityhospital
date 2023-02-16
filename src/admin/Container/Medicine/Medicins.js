@@ -9,7 +9,7 @@ import * as yup from 'yup';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMedicine } from '../../../redux/action/medicins.action';
+import { getMedicine, postMedicine, putMedicine } from '../../../redux/action/medicins.action';
 
 
 function Medicins(props) {
@@ -22,7 +22,7 @@ function Medicins(props) {
 
     const dispatch = useDispatch();
     const medicineData = useSelector(state => state.medicine)
-    console.log(medicineData.medicines)
+    // console.log(medicineData.medicines)
     useEffect(() => {
         let localData = JSON.parse(localStorage.getItem("medicine"));
         if (localData !== null) {
@@ -74,33 +74,37 @@ function Medicins(props) {
 
 
     const storeMeddata = (values) => {
-        let localData = JSON.parse(localStorage.getItem("medicine"));
-        let idData = Math.round(Math.random() * 1000);
-        let data = { ...values, id: idData };
-        // console.log(localData);
+        // let localData = JSON.parse(localStorage.getItem("medicine"));
+        // let idData = Math.round(Math.random() * 1000);
+        // let data = { ...values, id: idData };
+        // // console.log(localData);
 
-        if (localData !== null) {
-            localData.push(data);
-            localStorage.setItem("medicine", JSON.stringify(localData))
-            // save data into state
-            setMedData(localData);
-        } else {
-            localStorage.setItem("medicine", JSON.stringify([data]));
-            // save data into state
-            setMedData(data);
-        }
+        // if (localData !== null) {
+        //     localData.push(data);
+        //     localStorage.setItem("medicine", JSON.stringify(localData))
+        //     // save data into state
+        //     setMedData(localData);
+        // } else {
+        //     localStorage.setItem("medicine", JSON.stringify([data]));
+        //     // save data into state
+        //     setMedData(data);
+        // }
+
+        dispatch(postMedicine(values))
+        console.log(dispatch(postMedicine(values)))
     }
     const handleUpdateData = (values) => {
-        let localData = JSON.parse(localStorage.getItem("medicine"));
-        let updateData = localData.map((l) => {
-            if (l.id === values.id) {
-                return values;
-            } else {
-                return l;
-            }
-        })
-        localStorage.setItem("medicine", JSON.stringify(updateData));
-        setMedData(updateData);
+        // let localData = JSON.parse(localStorage.getItem("medicine"));
+        // let updateData = localData.map((l) => {
+        //     if (l.id === values.id) {
+        //         return values;
+        //     } else {
+        //         return l;
+        //     }
+        // })
+        // localStorage.setItem("medicine", JSON.stringify(updateData));
+        // setMedData(updateData);
+        dispatch(putMedicine(values))
         handleDClose();
         setEid();
         formikObj.resetForm();
@@ -120,6 +124,7 @@ function Medicins(props) {
             {
                 if (Eid) {
                     handleUpdateData(values);
+                    dispatch(putMedicine(values))
                 } else {
                     storeMeddata(values);
                     resetForm();
