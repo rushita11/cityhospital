@@ -20,7 +20,7 @@ function Medicins(props) {
     const [open, setOpen] = React.useState(false)
 
     const dispatch = useDispatch();
-    const medicineData = useSelector(state => state.medicines);
+    const medicineData = useSelector(state => state.medicine);
     console.log(medicineData);
 
 
@@ -253,7 +253,7 @@ function Medicins(props) {
             </div>
             <div style={{ height: 400, width: '100%' }}>
                 <DataGrid
-                    rows={medData}
+                    rows={medicineData.medicine}
                     columns={columns}
                     pageSize={5}
                     rowsPerPageOptions={[5]}
