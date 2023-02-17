@@ -44,7 +44,7 @@ function App() {
       <Provider store={store}>
         <Layout>
           <Switch>
-            <Route exact path={"/medicins"} component={Counter} />
+            <Route exact path={"/medicins"} component={Medicins} />
             <Route exact path={"/doctor"} component={Do} />
           </Switch>
         </Layout>

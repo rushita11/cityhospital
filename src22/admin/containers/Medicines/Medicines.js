@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import MedicineModal from '../MedicineModal';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Modal, Typography } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { Form, Formik, useFormik } from 'formik';
@@ -9,34 +8,38 @@ import * as yup from 'yup';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMedicines } from '../../../redux/action/medicin.action';
+import { deleteMedicines, getMedicines, postMedicines, putMedicines } from '../../../redux/action/medicines.action';
 
 
-function Medicins(props) {
+function Medicines(props) {
     const [medData, setMedData] = useState([])
     const [Dopen, setDOpen] = React.useState(false);
     const [dId, setDId] = useState();
     const [Eid, setEid] = useState();
     const [open, setOpen] = React.useState(false)
 
-    const dispatch = useDispatch();
-    const medicineData = useSelector(state => state.medicines);
-    console.log(medicineData);
 
+    const dispatch = useDispatch();
+    const medicineData = useSelector(state => state.medicines)
+
+    console.log(medicineData.medicines);
 
     useEffect(() => {
         let localData = JSON.parse(localStorage.getItem("medicine"));
         if (localData !== null) {
             setMedData(localData);
         }
-        dispatch((getMedicines()))
+
+        dispatch(getMedicines());
     }, [])
 
     const handleDelete = () => {
-        let localData = JSON.parse(localStorage.getItem("medicine"));
-        let deData = localData.filter((l) => l.id !== dId)
-        localStorage.setItem("medicine", JSON.stringify(deData));
-        setMedData(deData);
+        // let localData = JSON.parse(localStorage.getItem("medicine"));
+        // let deData = localData.filter((l) => l.id !== dId)
+        // localStorage.setItem("medicine", JSON.stringify(deData));
+        // setMedData(deData);
+
+        dispatch(deleteMedicines(dId))
         handleDClose();
         setDId();
     }
@@ -74,33 +77,38 @@ function Medicins(props) {
 
 
     const storeMeddata = (values) => {
-        let localData = JSON.parse(localStorage.getItem("medicine"));
-        let idData = Math.round(Math.random() * 1000);
-        let data = { ...values, id: idData };
-        // console.log(localData);
+        // let localData = JSON.parse(localStorage.getItem("medicine"));
+        // let idData = Math.round(Math.random() * 1000);
+        // let data = { ...values, id: idData };
+        // // console.log(localData);
 
-        if (localData !== null) {
-            localData.push(data);
-            localStorage.setItem("medicine", JSON.stringify(localData))
-            // save data into state
-            setMedData(localData);
-        } else {
-            localStorage.setItem("medicine", JSON.stringify([data]));
-            // save data into state
-            setMedData(data);
-        }
+        // if (localData !== null) {
+        //     localData.push(data);
+        //     localStorage.setItem("medicine", JSON.stringify(localData))
+        //     // save data into state
+        //     setMedData(localData);
+        // } else {
+        //     localStorage.setItem("medicine", JSON.stringify([data]));
+        //     // save data into state
+        //     setMedData(data);
+        // }
+
+        dispatch(postMedicines(values))
+
     }
     const handleUpdateData = (values) => {
-        let localData = JSON.parse(localStorage.getItem("medicine"));
-        let updateData = localData.map((l) => {
-            if (l.id === values.id) {
-                return values;
-            } else {
-                return l;
-            }
-        })
-        localStorage.setItem("medicine", JSON.stringify(updateData));
-        setMedData(updateData);
+        // let localData = JSON.parse(localStorage.getItem("medicine"));
+        // let updateData = localData.map((l) => {
+        //     if (l.id === values.id) {
+        //         return values;
+        //     } else {
+        //         return l;
+        //     }
+        // })
+        // localStorage.setItem("medicine", JSON.stringify(updateData));
+        // setMedData(updateData);
+
+        dispatch(putMedicines(values));
         handleDClose();
         setEid();
         formikObj.resetForm();
@@ -144,6 +152,11 @@ function Medicins(props) {
     const handleDClose = () => {
         setDOpen(false);
     };
+
+
+   
+
+
     return (
         <>
             <Dialog
@@ -252,8 +265,9 @@ function Medicins(props) {
 
             </div>
             <div style={{ height: 400, width: '100%' }}>
+                
                 <DataGrid
-                    rows={medData}
+                    rows={medicineData.medicines}
                     columns={columns}
                     pageSize={5}
                     rowsPerPageOptions={[5]}
@@ -264,4 +278,4 @@ function Medicins(props) {
     );
 }
 
-export default Medicins;
+export default Medicines;
