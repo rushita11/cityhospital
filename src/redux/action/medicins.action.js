@@ -25,18 +25,18 @@ export const postMedicine = (data1) => (dispatch) => {
 
     }
 }
-export const putMedicine = (data1) => (dispatch) => {
-    console.log(data1)
+export const putMedicine = (data) => (dispatch) => {
+    console.log(data)
  try {
-    fetch('http://localhost:3007/medicin',{
+    fetch('http://localhost:3007/medicin' + data.id,{
         method: 'PUT',
         header: {
             'content-Type': 'application/json',
         },
-        body: JSON.stringify(data1),
+        body: JSON.stringify(data),
     })
     .then((response) => response.json())
-    .then((data) => dispatch({type:ActionType.MEDICINE_POST}));
+    .then((data) => dispatch({type:ActionType.MEDICINE_POST, payload:data}));
  }catch(error){
 }
 }

@@ -31,6 +31,20 @@
       "quantity": 45,
       "expiry": "2023",
       "id": 5
+    },
+    {
+      "name": "RT",
+      "price": 232,
+      "quantity": 34,
+      "expiry": "2024",
+      "id": 6
+    },
+    {
+      "name": "RT",
+      "price": 232,
+      "quantity": 34,
+      "expiry": "2024",
+      "id": 7
     }
   ],
   "comments": [

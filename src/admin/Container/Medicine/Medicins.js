@@ -124,7 +124,7 @@ function Medicins(props) {
             {
                 if (Eid) {
                     handleUpdateData(values);
-                    dispatch(putMedicine(values))
+                    // dispatch(putMedicine(values))
                 } else {
                     storeMeddata(values);
                     resetForm();
