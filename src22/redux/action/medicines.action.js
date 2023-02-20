@@ -30,6 +30,7 @@ export const postMedicines = (data1) => (dispatch) => {
 }
 
 export const putMedicines = (data) => (dispatch) => {
+    console.log(data)
     try {
         fetch('http://localhost:3006/medicines/' + data.id, {
             method: 'PUT',
