@@ -23,6 +23,7 @@ import Do from './admin/Container/Doctor/Do'
 import { configureStore } from "./redux/store";
 import { Provider } from "react-redux";
 import Counter from "./container/Counter";
+import Employee from "./admin/Container/Employee/Employee";
 function App() {
   const store = configureStore();
 
@@ -46,6 +47,7 @@ function App() {
           <Switch>
             <Route exact path={"/medicins"} component={Medicins} />
             <Route exact path={"/doctor"} component={Do} />
+            <Route exact path={"/employee"} component={Employee} />
           </Switch>
         </Layout>
       </Provider>

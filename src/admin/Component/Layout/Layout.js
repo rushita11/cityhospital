@@ -81,7 +81,8 @@ export default function Layout({ children }) {
     };
     const menuData = [
         { lable: 'Medicines', icon: <MedicalServicesIcon />, to: '/medicins' },
-        { lable: 'Doctor', icon: <PersonIcon />, to: '/doctor' }
+        { lable: 'Doctor', icon: <PersonIcon />, to: '/doctor' },
+        { lable: 'Employee', icon: <PersonIcon />, to: '/employee' }
     ];
     return (
         <Box sx={{ display: 'flex' }}>
