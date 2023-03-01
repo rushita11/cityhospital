@@ -47,7 +47,7 @@ function App() {
           <Switch>
             <Route exact path={"/medicins"} component={Medicins} />
             <Route exact path={"/doctor"} component={Do} />
-            <Route exact path={"/employee"} component={Employee} />
+            {/* <Route exact path={"/employee"} component={Employee} /> */}
           </Switch>
         </Layout>
       </Provider>
